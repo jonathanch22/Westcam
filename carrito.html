@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestCam - Fabricante en tus manos</title>
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <div id="mySidenav" class="menu-side">
+    <div class="menu-header">
+        <a href="javascript:void(0)" class="btn-cerrar" onclick="closeNav()">&times;</a>
+    </div>
+    <div class="buscar-contenedor">
+        <input type="text" id="input-busqueda-capa" placeholder="Buscar en la tienda...">
+        <button onclick="realizarBusquedaDesdeCapa()" style="cursor: pointer;">BUSCAR</button>
+    </div>
+    <nav class="enlaces-menu">
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="https://wa.me/50765646376">Contacto</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+</div>
+
+<header>
+    <div class="bar-whatsapp">
+        <div class="wa-content">
+            <a href="https://wa.me/50765646376" target="_blank">
+                <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.2rem;"></i>
+                <span class="wa-number">+507 6564-6376</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="bar-main">
+        <i class="fa-solid fa-bars" onclick="openNav()" style="cursor: pointer; padding: 5px; font-size: 25px;"></i> 
+        
+        <a href="index.html" class="logo-center">
+            <img src="tu-logo.png" alt="WestCam">
+        </a>
+
+        <nav class="enlaces-menu-pc">
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="https://wa.me/50765646376">Contacto</a>
+            <a href="servicios.html">Servicios</a>
+        </nav>
+
+       <div class="buscador-horizontal-pc">
+    <input type="text" id="input-busqueda-pc" placeholder="Buscar en la tienda..." 
+           onkeypress="if(event.key === 'Enter') { document.getElementById('input-busqueda-capa').value = this.value; realizarBusquedaDesdeCapa(); }">
+    
+    <button onclick="document.getElementById('input-busqueda-capa').value = document.getElementById('input-busqueda-pc').value; realizarBusquedaDesdeCapa();" style="cursor: pointer;">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</div>
+
+        <div class="header-icons">
+            <i class="fa-solid fa-magnifying-glass lupa-movil" onclick="toggleBuscador()" style="cursor: pointer; padding: 5px;"></i>
+            
+            <a href="mi-cuenta.html" class="user-link">
+                <i class="fa-solid fa-user"></i>
+                <span class="user-text-pc">Mi Cuenta</span>
+            </a>
+            
+            <div class="cart-container" onclick="window.location.href='carrito.html'">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count-badge">0</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="bar-social-bottom">
+    <div class="social-group">
+        <a href="https://www.instagram.com/westcam_tienda?igsh=MXB6OTZhOWRkcGh2ag==" target="_blank" rel="noopener noreferrer">
+            <img src="ig.png" alt="Instagram" class="social-img">
+        </a>
+        
+        <a href="https://youtube.com/@westcam-f3p?si=spaYfMI415lulb6O" target="_blank" rel="noopener noreferrer">
+            <img src="yy-Photoroom.png" alt="YouTube" class="social-img">
+        </a>
+        
+        <a href="https://www.tiktok.com/@westcam_tienda?_r=1&_t=ZS-96EONMIittJ" target="_blank" rel="noopener noreferrer">
+            <img src="tk.png" alt="TikTok" class="social-img">
+        </a>
+    </div>
+</div>
+    </header>
+
+ <!-- CAPA DE BÚSQUEDA -->
+<div id="capa-busqueda" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; font-family: sans-serif;">
+    
+    <div style="display: flex; width: 90%; max-width: 600px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 0; overflow: hidden; height: 60px; position: relative; box-sizing: border-box;">
+        
+        <input type="text" id="input-busqueda-capa" placeholder="Buscar..." style="flex: 1; padding: 0 20px; border: none; outline: none; font-size: 1.3rem; height: 100%; box-sizing: border-box; min-width: 0;"
+               onkeydown="if(event.key === 'Enter') ejecutarBusquedaInterna(this.value)">
+        
+        <button onclick="ejecutarBusquedaInterna(this.previousElementSibling.value)" style="background: #27a3cc; color: white; border: none; width: 80px; height: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 0; margin: 0; flex-shrink: 0; padding: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: auto;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+
+    </div>
+</div>
+
+<section class="carrito-contenedor" style="max-width: 900px; margin: 30px auto; padding: 20px; font-family: sans-serif; color: #333;">
+    
+    <header>
+        <h1 style="color: #003366; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; margin-bottom: 30px; border-bottom: 2px solid #eef0f2; padding-bottom: 10px;">
+            Tu Carrito de Compras
+        </h1>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;">
+        
+        <section style="flex: 2; min-width: 320px;">
+            <div id="contenedor-items-carrito"></div>
+
+            <nav style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; max-width: 280px;">
+                <a href="index.html#productos" style="display: block; text-align: center; background-color: #666; color: #fff; text-decoration: none; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 4px;">
+                    &lt;&lt; Seguir Comprando
+                </a>
+                
+                </button>
+            </nav>
+        </section>
+
+        <aside style="flex: 1; min-width: 260px; background: #f9fafb; border: 1px solid #eef0f2; padding: 20px; border-radius: 8px;">
+            <h2 style="color: #003366; font-size: 1.2rem; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid #eef0f2; padding-bottom: 8px;">
+                Resumen de Orden
+            </h2>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem;">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal" style="font-weight: bold;">$0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.95rem; color: #666;">
+                <span>ITBMS (7%):</span>
+                <span id="cart-itbms">$0.00</span>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid #eef0f2; margin-bottom: 15px;">
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 25px; font-size: 1.2rem; font-weight: bold; color: #003366;">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+
+            <button onclick="procederAlPago()" class="btn-products" style="width: 100%; background-color: #003366; color: white; padding: 12px; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;">
+                Confirmar Pedido
+            </button>
+        </aside>
+
+    </div>
+</section>
+
+<script>
+// 1. Leer base de datos del navegador
+let carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
+
+// 2. Renderizar los productos en la pantalla
+function renderizarCarrito() {
+    carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
+    const contenedor = document.getElementById('contenedor-items-carrito');
+    if (!contenedor) return;
+    
+    contenedor.innerHTML = '';
+
+    if (carrito.length === 0) {
+        contenedor.innerHTML = '<p style="color: #666; font-style: italic; padding: 20px 0;">Tu carrito está vacío.</p>';
+        actualizarTotales(0);
+        actualizarContadorIconoVisual(); 
+        return;
+    }
+
+    let subtotalGeneral = 0;
+
+    carrito.forEach((item, index) => {
+        const subtotalProducto = item.precio * item.cantidad;
+        subtotalGeneral += subtotalProducto;
+
+        let itemHTML = '';
+        itemHTML += '<article class="item-carrito" style="display: flex; align-items: center; border-bottom: 1px solid #eef0f2; padding: 12px 0; width: 100%; box-sizing: border-box; overflow: hidden;">';
+        
+        // COLUMNA IMAGEN (20% del ancho)
+        itemHTML += '    <div style="width: 20%; flex-shrink: 0; display: flex; justify-content: flex-start;">';
+        itemHTML += '        <div style="width: 65px; height: 65px; border: 1px solid #eef0f2; background: #fff; border-radius: 4px; overflow: hidden;">';
+        itemHTML += '            <img src="' + item.imagen + '" alt="' + item.titulo + '" style="width: 100%; height: 100%; object-fit: cover;">';
+        itemHTML += '        </div>';
+        itemHTML += '    </div>';
+        
+        // COLUMNA TEXTO (45% del ancho)
+        itemHTML += '    <div style="width: 45%; padding: 0 5px; box-sizing: border-box; min-width: 0;">';
+        itemHTML += '        <h3 style="font-size: 0.85rem; font-weight: bold; margin: 0 0 3px 0; color: #333; line-height: 1.2; white-space: normal; display: block; word-break: break-word;">';
+        itemHTML += '            ' + item.titulo;
+        itemHTML += '        </h3>';
+        itemHTML += '        <div style="color: #003366; font-size: 0.9rem; font-weight: bold;">';
+        itemHTML += '            $' + item.precio.toFixed(2);
+        itemHTML += '        </div>';
+        itemHTML += '    </div>';
+        
+        // COLUMNA CONTROLES (Empujada a la izquierda con margin-right para proteger la X)
+        itemHTML += '    <div style="width: 35%; display: flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; margin-right: 15px;">';
+        
+        // El cuadro del número
+        itemHTML += '        <input type="number" min="1" value="' + item.cantidad + '" onchange="cambiarCantidad(' + index + ', this.value)" ';
+        itemHTML += '            style="width: 40px; height: 32px; padding: 0; text-align: center; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; font-weight: bold; margin: 0; box-sizing: border-box;">';
+        
+        // El botón "X"
+        itemHTML += '        <button onclick="eliminarProducto(' + index + ')" ';
+        itemHTML += '            style="background: #ff4d4d; color: white; border: none; border-radius: 4px; width: 32px; height: 32px; cursor: pointer; font-weight: bold; font-size: 0.85rem; margin: 0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box; padding: 0;">';
+        itemHTML += '            X';
+        itemHTML += '        </button>';
+        
+        itemHTML += '    </div>';
+        itemHTML += '</article>';
+
+        contenedor.innerHTML += itemHTML;
+    });
+
+    actualizarTotales(subtotalGeneral);
+    actualizarContadorIconoVisual(); 
+}
+
+// 3. Añadir productos (por si acaso se usa en esta vista)
+function agregarAlCarrito(id, titulo, precio, imagen) {
+    let imagenLimpia = imagen.replace(/['"]/g, '');
+    const productoExistente = carrito.find(item => item.id === id);
+
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        carrito.push({ 
+            id: id, 
+            titulo: titulo, 
+            precio: parseFloat(precio), 
+            imagen: imagenLimpia, 
+            cantidad: 1 
+        });
+    }
+
+    guardarYActualizar();
+    mostrarAlertaFlotante(); 
+}
+
+// 4. Actualizar cantidades desde las flechitas en tiempo real
+function cambiarCantidad(index, nuevaCantidad) {
+    let cantidadEntera = parseInt(nuevaCantidad);
+
+    if (isNaN(cantidadEntera) || cantidadEntera < 1) {
+        cantidadEntera = 1;
+    }
+    
+    carrito[index].cantidad = cantidadEntera;
+    localStorage.setItem('carrito_compras', JSON.stringify(carrito));
+    renderizarCarrito(); 
+}
+
+// 5. Eliminar un producto
+function eliminarProducto(index) {
+    carrito.splice(index, 1);
+    guardarYActualizar();
+}
+
+// 6. Calcular subtotales, ITBMS (7%) y Total
+function actualizarTotales(subtotal) {
+    const itbms = subtotal * 0.07; 
+    const total = subtotal + itbms;
+
+    document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+    document.getElementById('cart-itbms').innerText = `$${itbms.toFixed(2)}`;
+    document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+}
+
+// 7. Sincronizar el número de la burbuja del menú
+function actualizarContadorIconoVisual() {
+    const totalProductos = carrito.reduce((suma, item) => suma + item.cantidad, 0);
+    const badge = document.getElementById("cart-count-badge") || document.getElementById("contador-carrito");
+    if (badge) {
+        badge.innerText = totalProductos;
+    }
+}
+
+// 8. Guardar en LocalStorage y redibujar
+function guardarYActualizar() {
+    localStorage.setItem('carrito_compras', JSON.stringify(carrito));
+    renderizarCarrito();
+}
+
+// 9. Animación de alerta flotante
+function mostrarAlertaFlotante() {
+    const alerta = document.createElement("div");
+    alerta.innerText = "¡Producto añadido al carrito! 🛒";
+    alerta.style.cssText = `
+        position: fixed;
+        bottom: 20px; right: 20px; background-color: #27a3cc; color: white;
+        padding: 12px 25px; border-radius: 5px; font-family: sans-serif; font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; transition: opacity 0.5s ease;
+    `;
+    document.body.appendChild(alerta);
+    setTimeout(() => {
+        alerta.style.opacity = "0";
+        setTimeout(() => alerta.remove(), 500);
+    }, 1500);
+}
+
+// 10. Redirección obligatoria a pago.html al confirmar pedido
+function procederAlPago() {
+    let carritoActual = JSON.parse(localStorage.getItem('carrito_compras')) || [];
+    
+    if (carritoActual.length === 0) {
+        alert("⚠️ Tu carrito está vacío. Añade al menos una cámara para continuar.");
+        return;
+    }
+    
+    window.location.href = "pago.html";
+}
+
+// 11. Ejecutar el carrito de una vez al cargar la página
+document.addEventListener("DOMContentLoaded", renderizarCarrito);
+</script>
+
+    <footer class="footer-principal">
+    <div class="barra-boletin">
+        <h2>SUSCRÍBASE A NUESTRO BOLETÍN</h2>
+        <div class="linea-decorativa" style="background-color: white;"></div>
+        <p>Reciba las mejores ofertas y novedades tecnológicas en su correo.</p>
+        
+        <form id="form-boletin" onsubmit="suscribirUsuario(event)" class="input-boletin">
+            <input type="email" id="correo-boletin" placeholder="Su correo electrónico..." required>
+            <button type="submit">ENVIAR</button>
+        </form>
+
+        <div id="mensaje-exito" style="display: none; color: #28a745; font-size: 1rem; margin-top: 15px; font-weight: bold; text-align: center;">
+            ¡Gracias, tu petición de suscripción fue completada! Por favor revisa tu correo electrónico para confirmarla.
+        </div>
+    </div>
+
+        <div class="barra-contacto">
+            <div class="info-bloque-contacto">
+                <h4>CONTÁCTENOS</h4>
+                <div class="linea-decorativa"></div>
+                
+                <div class="item-contacto">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>El Nuevo Arraijan, Panamá.</p>
+                </div>
+                <div class="item-contacto">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p><strong>WestCam@gmail.com</strong></p>
+                </div>
+                <div class="item-contacto">
+                    <i class="fa-brands fa-whatsapp color-wa"></i>
+                    <p><strong>(+507) 65646376</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="barra-copyright">
+            <div class="links-legales">
+                <a href="#">Inicio</a>
+                <a href="#">Tiendas</a>
+                <a href="#">Términos y Condiciones</a>
+            </div>
+            <p style="color: white; font-size: 0.8rem; margin-top: 10px;">Copyright 2026 © GRUPO F&S</p>
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/50765646376" class="btn-float-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+   <script>
+    function openNav() { document.getElementById("mySidenav").style.width = "300px"; }
+    function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
+
+    function toggleBuscador() {
+        const capa = document.getElementById('capa-busqueda');
+        if (capa.style.display === 'flex') { cerrarBuscador(); } else { abrirBuscador(); }
+    }
+
+    function abrirBuscador() { document.getElementById('capa-busqueda').style.display = 'flex'; }
+    function cerrarBuscador() { document.getElementById('capa-busqueda').style.display = 'none'; }
+
+    window.onclick = function(event) {
+        const capa = document.getElementById('capa-busqueda');
+        if (event.target == capa) { cerrarBuscador(); }
+    }
+
+    function suscribirUsuario(event) {
+        event.preventDefault();
+        document.getElementById('form-boletin').style.display = 'none';
+        document.getElementById('mensaje-exito').style.display = 'block';
+    }
+</script>
+
+
+<script>
+ // =========================================================================
+// 📑 1. BASE DE DATOS REAL Y COMPLETA (14 CÁMARAS EN TOTAL)
+// =========================================================================
+const camarasDB = [
+    { id: "204", titulo: "Cámara Dual Interior Xiaomi 4MP", url: "xiaomi.html", keywords: ["xiaomi", "dual", "interior", "4mp", "xio.webp"] },
+    { id: "201", titulo: "Ezviz H9c 2K - Vista Panorámica", url: "ezviz.html", keywords: ["ezviz", "h9c", "2k", "vista", "panoramica", "xx.webp"] },
+    { id: "203", titulo: "Dahua Bullet 2.8 MM 5MP", url: "dahua.html", keywords: ["dahua", "bullet", "2.8", "5mp", "m5.jpg"] },
+    { id: "205", titulo: "Hikvision IR Bullet DS-2CE16C0T", url: "hik-bullet.html", keywords: ["hikvision", "ir", "bullet", "ds-2ce16c0t", "exterior", "hi.jpg"] },
+    { id: "206", titulo: "Hikvision PTZ DS-2AE7123TI-A", url: "hikptz.html", keywords: ["hikvision", "ptz", "ds-2ae7123ti-a", "robotizada", "zoom", "2p.jfif"] },
+    { id: "207", titulo: "Dahua Cooper Domo Metálico 2MP", url: "dahuadomo.html", keywords: ["dahua", "cooper", "domo", "metalico", "2mp", "interior", "domo.png"] },
+    { id: "208", titulo: "Hikvision Domo IP 4MP Audio", url: "hikdomoip.html", keywords: ["hikvision", "domo", "ip", "4mp", "audio", "micrófono", "2.8.jfif"] },
+    { id: "209", titulo: "Dahua Bullet Activa Alarma/Luz", url: "dahuaactiva.html", keywords: ["dahua", "bullet", "activa", "alarma", "luz", "disuasión", "luz.png"] },
+    { id: "210", titulo: "Hikvision PTZ Velocidad 2MP", url: "hikptzpro.html", keywords: ["hikvision", "ptz", "velocidad", "2mp", "domo", "pro", "2mp.png"] },
+    { id: "211", titulo: "Xiaomi Mi 360° Home Security 2K Pro", url: "xiaomi360.html", keywords: ["xiaomi", "mi", "360", "home", "security", "2k", "pro", "pro.jpg"] },
+    { id: "212", titulo: "Ezviz C6N Smart Wi-Fi Pan & Tilt", url: "ezvizc6n.html", keywords: ["ezviz", "c6n", "smart", "wifi", "pan", "tilt", "2kpro.png"] },
+    { id: "213", titulo: "Dahua WizSense Bullet IP 5MP", url: "dahuaai.html", keywords: ["dahua", "wizsense", "bullet", "ip", "5mp", "inteligencia artificial", "5mp.png"] },
+    { id: "214", titulo: "Ezviz C8W Pro 2K Exterior 360°", url: "ezvizc8w.html", keywords: ["ezviz", "c8w", "pro", "2k", "exterior", "360", "360.png"] },
+    { id: "215", titulo: "Dahua Domo IP Exterior 4MP", url: "dahuadomoip.html", keywords: ["dahua", "domo", "ip", "4mp", "exterior", "red"] }
+];
+
+// =========================================================================
+// ⚙️ 2. MOTOR DE BÚSQUEDA INTELIGENTE CON REDIRECCIÓN DIRECTA
+// =========================================================================
+function ejecutarBusquedaInterna(textoBuscar) {
+    let query = textoBuscar.toLowerCase().trim();
+
+    if (query === "") {
+        alert("⚠️ Por favor, escribe la cámara o marca que deseas buscar.");
+        return;
+    }
+
+    // 🎯 AUTO-CORRECTOR DE ERRORES COMUNES
+    if (query.includes("dahuna") || query.includes("dhaua") || query.includes("dajua")) query = "dahua";
+    if (query.includes("hikvison") || query.includes("hikv") || query.includes("hik")) query = "hikvision";
+    if (query.includes("xiomi") || query.includes("xiaomy") || query.includes("xio")) query = "xiaomi";
+    if (query.includes("esviz") || query.includes("ezbi") || query.includes("ezv")) query = "ezviz";
+
+    // Buscar en los 14 registros
+    const resultado = camarasDB.find(camara => {
+        const matchTitulo = camara.titulo.toLowerCase().includes(query);
+        const matchKeywords = camara.keywords.some(keyword => keyword.includes(query) || query.includes(keyword));
+        return matchTitulo || matchKeywords;
+    });
+
+    if (resultado) {
+        // Cierra la capa flotante automáticamente antes de cambiar de página
+        if (typeof cerrarBuscador === "function") {
+            cerrarBuscador(); 
+        }
+        window.location.href = resultado.url; 
+    } else {
+        alert("🔍 No encontramos resultados. Intenta con marcas como Dahua, Hikvision, Ezviz o Xiaomi.");
+    }
+}
+
+// =========================================================================
+// 🔌 3. CONTROLADOR INTEGRADO (COLECTA TEXTO DE CUALQUIER BUSCADOR ACTIVO)
+// =========================================================================
+function realizarBusquedaDesdeCapa() {
+    const inputCapa = document.getElementById('input-busqueda-capa'); // Buscador flotante
+    const inputMenu = document.getElementById('input-busqueda-menu'); // Buscador barra de inicio
+
+    // Caso 1: El usuario usó la capa flotante al lado del carrito
+    if (inputCapa && inputCapa.value.trim() !== "") {
+        ejecutarBusquedaInterna(inputCapa.value);
+    } 
+    // Caso 2: El usuario usó la barra de búsqueda normal del menú
+    else if (inputMenu && inputMenu.value.trim() !== "") {
+        ejecutarBusquedaInterna(inputMenu.value);
+    } 
+    // Caso 3: Ambos están vacíos
+    else {
+        ejecutarBusquedaInterna(""); 
+    }
+}
+
+// ⌨️ Asegura que el "Enter" funcione en la barra de menú también por código directo
+document.addEventListener("DOMContentLoaded", function() {
+    const inputMenu = document.getElementById('input-busqueda-menu');
+    if (inputMenu) {
+        inputMenu.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                realizarBusquedaDesdeCapa();
+            }
+        });
+    }
+});
+</script> 
+</body>
+</html>
+
+
+
+
+

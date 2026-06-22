@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestCam - Fabricante en tus manos</title>
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+  <div id="mySidenav" class="menu-side">
+    <div class="menu-header">
+        <a href="javascript:void(0)" class="btn-cerrar" onclick="closeNav()">&times;</a>
+    </div>
+    <div class="buscar-contenedor">
+        <input type="text" id="input-busqueda-capa" placeholder="Buscar en la tienda...">
+        <button onclick="realizarBusquedaDesdeCapa()" style="cursor: pointer;">BUSCAR</button>
+    </div>
+    <nav class="enlaces-menu">
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="https://wa.me/50765646376">Contacto</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+</div>
+
+<header>
+    <div class="bar-whatsapp">
+        <div class="wa-content">
+            <a href="https://wa.me/50765646376" target="_blank">
+                <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.2rem;"></i>
+                <span class="wa-number">+507 6564-6376</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="bar-main">
+        <i class="fa-solid fa-bars" onclick="openNav()" style="cursor: pointer; padding: 5px; font-size: 25px;"></i> 
+        
+        <a href="index.html" class="logo-center">
+            <img src="tu-logo.png" alt="WestCam">
+        </a>
+
+        <nav class="enlaces-menu-pc">
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="https://wa.me/50765646376">Contacto</a>
+            <a href="servicios.html">Servicios</a>
+        </nav>
+
+       <div class="buscador-horizontal-pc">
+    <input type="text" id="input-busqueda-pc" placeholder="Buscar en la tienda..." 
+           onkeypress="if(event.key === 'Enter') { document.getElementById('input-busqueda-capa').value = this.value; realizarBusquedaDesdeCapa(); }">
+    
+    <button onclick="document.getElementById('input-busqueda-capa').value = document.getElementById('input-busqueda-pc').value; realizarBusquedaDesdeCapa();" style="cursor: pointer;">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</div>
+
+        <div class="header-icons">
+            <i class="fa-solid fa-magnifying-glass lupa-movil" onclick="toggleBuscador()" style="cursor: pointer; padding: 5px;"></i>
+            
+            <a href="mi-cuenta.html" class="user-link">
+                <i class="fa-solid fa-user"></i>
+                <span class="user-text-pc">Mi Cuenta</span>
+            </a>
+            
+            <div class="cart-container" onclick="window.location.href='carrito.html'">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cart-count-badge">0</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="bar-social-bottom">
+    <div class="social-group">
+        <a href="https://www.instagram.com/westcam_tienda?igsh=MXB6OTZhOWRkcGh2ag==" target="_blank" rel="noopener noreferrer">
+            <img src="ig.png" alt="Instagram" class="social-img">
+        </a>
+        
+        <a href="https://youtube.com/@westcam-f3p?si=spaYfMI415lulb6O" target="_blank" rel="noopener noreferrer">
+            <img src="yy-Photoroom.png" alt="YouTube" class="social-img">
+        </a>
+        
+        <a href="https://www.tiktok.com/@westcam_tienda?_r=1&_t=ZS-96EONMIittJ" target="_blank" rel="noopener noreferrer">
+            <img src="tk.png" alt="TikTok" class="social-img">
+        </a>
+    </div>
+</div>
+    </header>
+    <!-- CAPA DE BÚSQUEDA -->
+<div id="capa-busqueda" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; font-family: sans-serif;">
+    
+    <div style="display: flex; width: 90%; max-width: 600px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 0; overflow: hidden; height: 60px; position: relative; box-sizing: border-box;">
+        
+        <input type="text" id="input-busqueda-capa" placeholder="Buscar..." style="flex: 1; padding: 0 20px; border: none; outline: none; font-size: 1.3rem; height: 100%; box-sizing: border-box; min-width: 0;"
+               onkeydown="if(event.key === 'Enter') ejecutarBusquedaInterna(this.value)">
+        
+        <button onclick="ejecutarBusquedaInterna(this.previousElementSibling.value)" style="background: #27a3cc; color: white; border: none; width: 80px; height: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 0; margin: 0; flex-shrink: 0; padding: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: auto;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+
+    </div>
+</div>
+
+
+<div class="aula-container">
+    <div class="sidebar-clases">
+        <h3>Temario del Curso</h3>
+        <ul class="lista-clases">
+            <li class="clase-item activa" onclick="cambiarVideo('video1.mp4', 'Clase 1: Cómo conectar cámaras a DVR', 'Aprende paso a paso cómo preparar el cable UTP categoría 5, realizar el entorchado de los hilos para polo positivo/negativo y conectar los video baluns de forma profesional para evitar interferencias.', this)">
+                <i class="fa-solid fa-circle-play"></i> Clase 1: Conexión Física de Cámaras
+            </li>
+            <li class="clase-item" onclick="cambiarVideo('video2.mp4', 'Clase 2: Grabación en la Nube (Pros y Contras)', 'Analiza cómo funciona el almacenamiento en la nube para sistemas IP, cuáles son las ventajas en caso de robo del equipo local, costos estimados y el consumo de ancho de banda en tu internet.', this)">
+                <i class="fa-solid fa-circle-play"></i> Clase 2: Grabación en la Nube
+            </li>
+            <li class="clase-item" onclick="cambiarVideo('video3.mp4', 'Clase 3: Configurar Aplicación en Celular (Hikvision)', 'Guía detallada para descargar la App Hik-Connect, registrar tu cuenta, activar el dvr en red para ponerlo en línea y escanear el código QR para monitorear en vivo desde cualquier lugar.', this)">
+                <i class="fa-solid fa-circle-play"></i> Clase 3: Monitoreo desde el Móvil
+            </li>
+            <li class="clase-item" onclick="cambiarVideo('video4.mp4', 'Clase 4: Ubicación Estratégica de Equipos', 'Descubre los mejores puntos estratégicos para colocar tus cámaras (puerta principal, ventanas del primer piso, accesos traseros) y la altura ideal para evitar sabotajes y eliminar puntos ciegos.', this)">
+                <i class="fa-solid fa-circle-play"></i> Clase 4: Ubicación Estratégica
+            </li>
+        </ul>
+    </div>
+
+    <div class="contenido-video">
+        <h2 id="titulo-clase" class="titulo-clase-actual">Clase 1: Cómo conectar cámaras a DVR</h2>
+        
+        <div class="reproductor-wrapper">
+            <video id="reproductor-principal" controls width="100%">
+                <source id="video-source" src="video1.mp4" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
+        </div>
+        
+        <div class="descripcion-clase">
+            <strong>Detalles del video:</strong>
+            <p id="texto-descripcion">Aprende paso a paso cómo preparar el cable UTP categoría 5, realizar el entorchado de los hilos para polo positivo/negativo y conectar los video baluns de forma profesional para evitar interferencias.</p>
+        </div>
+    </div>
+</div>
+
+
+    <footer class="footer-principal">
+    <div class="barra-boletin">
+        <h2>SUSCRÍBASE A NUESTRO BOLETÍN</h2>
+        <div class="linea-decorativa" style="background-color: white;"></div>
+        <p>Reciba las mejores ofertas y novedades tecnológicas en su correo.</p>
+        
+        <form id="form-boletin" onsubmit="suscribirUsuario(event)" class="input-boletin">
+            <input type="email" id="correo-boletin" placeholder="Su correo electrónico..." required>
+            <button type="submit">ENVIAR</button>
+        </form>
+
+        <div id="mensaje-exito" style="display: none; color: #28a745; font-size: 1rem; margin-top: 15px; font-weight: bold; text-align: center;">
+            ¡Gracias, tu petición de suscripción fue completada! Por favor revisa tu correo electrónico para confirmarla.
+        </div>
+    </div>
+
+        <div class="barra-contacto">
+            <div class="info-bloque-contacto">
+                <h4>CONTÁCTENOS</h4>
+                <div class="linea-decorativa"></div>
+                
+                <div class="item-contacto">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>El Nuevo Arraijan, Panamá.</p>
+                </div>
+                <div class="item-contacto">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p><strong>WestCam@gmail.com</strong></p>
+                </div>
+                <div class="item-contacto">
+                    <i class="fa-brands fa-whatsapp color-wa"></i>
+                    <p><strong>(+507) 65646376</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="barra-copyright">
+            <div class="links-legales">
+                <a href="#">Inicio</a>
+                <a href="#">Tiendas</a>
+                <a href="#">Términos y Condiciones</a>
+            </div>
+            <p style="color: white; font-size: 0.8rem; margin-top: 10px;">Copyright 2026 © GRUPO F&S</p>
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/50765646376" class="btn-float-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPT PARA EL MENÚ -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+
+    <script>
+    // Función inteligente: si está cerrado lo abre, si está abierto lo cierra
+    function toggleBuscador() {
+        const capa = document.getElementById('capa-busqueda');
+        if (capa.style.display === 'flex') {
+            cerrarBuscador();
+        } else {
+            abrirBuscador();
+        }
+    }
+
+    function abrirBuscador() {
+        document.getElementById('capa-busqueda').style.display = 'flex';
+    }
+
+    function cerrarBuscador() {
+        document.getElementById('capa-busqueda').style.display = 'none';
+    }
+
+    // Cerrar al hacer clic en el fondo oscuro
+    window.onclick = function(event) {
+        const capa = document.getElementById('capa-busqueda');
+        if (event.target == capa) {
+            cerrarBuscador();
+        }
+    }
+</script>
+    <script>
+function suscribirUsuario(event) {
+    // 1. Evita que la página se recargue o se mueva
+    event.preventDefault(); 
+    
+    // 2. Traemos los elementos del HTML
+    const formulario = document.getElementById('form-boletin');
+    const mensajeExito = document.getElementById('mensaje-exito');
+    
+    // 3. Ocultamos el formulario y mostramos el mensaje de éxito
+    formulario.style.display = 'none';
+    mensajeExito.style.display = 'block';
+}
+</script>
+</script>
+
+<script>
+    // 1. Al cargar la página, verificamos si ya había productos guardados en el carrito
+    document.addEventListener("DOMContentLoaded", () => {
+        actualizarNumeroCarritoVisual();
+    });
+
+    // 2. Función que se ejecuta cuando el usuario hace clic en "AÑADIR AL CARRITO"
+    function agregarAlCarrito() {
+        // Obtenemos la cantidad actual guardada en localStorage (si no existe, empezamos en 0)
+        let cantidadActual = parseInt(localStorage.getItem("carrito_conteo")) || 0;
+        
+        // Sumamos 1 nuevo producto
+        cantidadActual++;
+        
+        // Guardamos el nuevo valor en la memoria del navegador
+        localStorage.setItem("carrito_conteo", cantidadActual);
+        
+        // Actualizamos el número rojo en la esquina superior derecha
+        actualizarNumeroCarritoVisual();
+
+        // Opcional: Una pequeña alerta flotante rápida para avisar al cliente
+        mostrarAlertaFlotante();
+    }
+
+    // 3. Función para pintar el número actual en el círculo del header
+    function actualizarNumeroCarritoVisual() {
+        const badge = document.getElementById("cart-count-badge");
+        if (badge) {
+            let cantidad = parseInt(localStorage.getItem("carrito_conteo")) || 0;
+            badge.innerText = cantidad;
+        }
+    }
+
+    // 4. Efecto visual: Alerta discreta flotante al añadir un producto
+    function mostrarAlertaFlotante() {
+        // Creamos un elemento temporal en pantalla
+        const alerta = document.createElement("div");
+        alerta.innerText = "¡Producto añadido al carrito! 🛒";
+        alerta.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #27a3cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 99999;
+            transition: opacity 0.5s ease;
+        `;
+        document.body.appendChild(alerta);
+
+        // Se desvanece y se elimina después de 2 segundos
+        setTimeout(() => {
+            alerta.style.opacity = "0";
+            setTimeout(() => alerta.remove(), 500);
+        }, 1500);
+    }
+</script>
+
+<script>
+let carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
+
+function agregarAlCarrito(id, titulo, precio, imagen) {
+    let imagenLimpia = imagen.replace(/['"]/g, '');
+    const productoExistente = carrito.find(item => item.id === id);
+
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        carrito.push({ 
+            id: id, 
+            titulo: titulo, 
+            precio: parseFloat(precio), 
+            imagen: imagenLimpia, 
+            cantidad: 1 
+        });
+    }
+
+    localStorage.setItem('carrito_compras', JSON.stringify(carrito));
+    actualizarContadorIconoVisual();
+    mostrarAlertaFlotante();
+}
+
+function actualizarContadorIconoVisual() {
+    const totalProductos = carrito.reduce((suma, item) => suma + item.cantidad, 0);
+    const badge = document.getElementById("cart-count-badge") || document.getElementById("contador-carrito");
+    if (badge) {
+        badge.innerText = totalProductos;
+    }
+}
+
+function mostrarAlertaFlotante() {
+    const alerta = document.createElement("div");
+    alerta.innerText = "¡Producto añadido al carrito! 🛒";
+    alerta.style.cssText = `
+        position: fixed; bottom: 20px; right: 20px; background-color: #27a3cc; color: white;
+        padding: 12px 25px; border-radius: 5px; font-family: sans-serif; font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; transition: opacity 0.5s ease;
+    `;
+    document.body.appendChild(alerta);
+    setTimeout(() => {
+        alerta.style.opacity = "0";
+        setTimeout(() => alerta.remove(), 500);
+    }, 1500);
+}
+
+document.addEventListener("DOMContentLoaded", actualizarContadorIconoVisual);
+</script>
+
+<script>
+ // =========================================================================
+// 📑 1. BASE DE DATOS REAL Y COMPLETA (14 CÁMARAS EN TOTAL)
+// =========================================================================
+const camarasDB = [
+    { id: "204", titulo: "Cámara Dual Interior Xiaomi 4MP", url: "xiaomi.html", keywords: ["xiaomi", "dual", "interior", "4mp", "xio.webp"] },
+    { id: "201", titulo: "Ezviz H9c 2K - Vista Panorámica", url: "ezviz.html", keywords: ["ezviz", "h9c", "2k", "vista", "panoramica", "xx.webp"] },
+    { id: "203", titulo: "Dahua Bullet 2.8 MM 5MP", url: "dahua.html", keywords: ["dahua", "bullet", "2.8", "5mp", "m5.jpg"] },
+    { id: "205", titulo: "Hikvision IR Bullet DS-2CE16C0T", url: "hik-bullet.html", keywords: ["hikvision", "ir", "bullet", "ds-2ce16c0t", "exterior", "hi.jpg"] },
+    { id: "206", titulo: "Hikvision PTZ DS-2AE7123TI-A", url: "hikptz.html", keywords: ["hikvision", "ptz", "ds-2ae7123ti-a", "robotizada", "zoom", "2p.jfif"] },
+    { id: "207", titulo: "Dahua Cooper Domo Metálico 2MP", url: "dahuadomo.html", keywords: ["dahua", "cooper", "domo", "metalico", "2mp", "interior", "domo.png"] },
+    { id: "208", titulo: "Hikvision Domo IP 4MP Audio", url: "hikdomoip.html", keywords: ["hikvision", "domo", "ip", "4mp", "audio", "micrófono", "2.8.jfif"] },
+    { id: "209", titulo: "Dahua Bullet Activa Alarma/Luz", url: "dahuaactiva.html", keywords: ["dahua", "bullet", "activa", "alarma", "luz", "disuasión", "luz.png"] },
+    { id: "210", titulo: "Hikvision PTZ Velocidad 2MP", url: "hikptzpro.html", keywords: ["hikvision", "ptz", "velocidad", "2mp", "domo", "pro", "2mp.png"] },
+    { id: "211", titulo: "Xiaomi Mi 360° Home Security 2K Pro", url: "xiaomi360.html", keywords: ["xiaomi", "mi", "360", "home", "security", "2k", "pro", "pro.jpg"] },
+    { id: "212", titulo: "Ezviz C6N Smart Wi-Fi Pan & Tilt", url: "ezvizc6n.html", keywords: ["ezviz", "c6n", "smart", "wifi", "pan", "tilt", "2kpro.png"] },
+    { id: "213", titulo: "Dahua WizSense Bullet IP 5MP", url: "dahuaai.html", keywords: ["dahua", "wizsense", "bullet", "ip", "5mp", "inteligencia artificial", "5mp.png"] },
+    { id: "214", titulo: "Ezviz C8W Pro 2K Exterior 360°", url: "ezvizc8w.html", keywords: ["ezviz", "c8w", "pro", "2k", "exterior", "360", "360.png"] },
+    { id: "215", titulo: "Dahua Domo IP Exterior 4MP", url: "dahuadomoip.html", keywords: ["dahua", "domo", "ip", "4mp", "exterior", "red"] }
+];
+
+// =========================================================================
+// ⚙️ 2. MOTOR DE BÚSQUEDA INTELIGENTE CON REDIRECCIÓN DIRECTA
+// =========================================================================
+// =========================================================================
+// 2. MOTOR DE BÚSQUEDA INTELIGENTE CON REDIRECCIÓN DIRECTA (SIN ALERTS)
+// =========================================================================
+function ejecutarBusquedaInterna(textoBuscar) {
+    let query = textoBuscar.toLowerCase().trim();
+
+    // Si le dan a la lupa vacío, va directo a la tienda
+    if (query === "") {
+        window.location.href = "productos.html"; 
+        return;
+    }
+    
+    // 🎯 AUTO-CORRECTOR DE ERRORES COMUNES
+    if (query.includes("dahuna") || query.includes("dhaua") || query.includes("dajua")) query = "dahua";
+    if (query.includes("hikvison") || query.includes("hikv") || query.includes("hik")) query = "hikvision";
+    if (query.includes("xiomi") || query.includes("xiaomy") || query.includes("xio")) query = "xiaomi";
+    if (query.includes("esviz") || query.includes("ezbi") || query.includes("ezv")) query = "ezviz";
+
+    // Buscar en los registros
+    const resultado = camarasDB.find(camara => {
+        const matchTitulo = camara.titulo.toLowerCase().includes(query);
+        const matchKeywords = camara.keywords.some(keyword => keyword.includes(query) || query.includes(keyword));
+        return matchTitulo || matchKeywords;
+    });
+
+    if (resultado) {
+        // Cierra la capa flotante automáticamente antes de cambiar de página
+        if (typeof cerrarBuscador === "function") {
+            cerrarBuscador(); 
+        }
+        window.location.href = resultado.url; 
+    } else {
+        // 🔥 ¡QUITAMOS EL SEGUNDO ALERT MOLESTO!
+        // Si no encuentra el producto, lo manda de forma elegante a la tienda para que busque manualmente
+        window.location.href = "productos.html?busqueda=" + encodeURIComponent(query);
+    }
+}
+
+// =========================================================================
+// 🔌 3. CONTROLADOR INTEGRADO (ADAPTADO A TUS IDS REALES DE PC Y MÓVIL)
+// =========================================================================
+function realizarBusquedaDesdeCapa() {
+    const inputCapa = document.getElementById('input-busqueda-capa');   // Capa flotante oscura
+    const inputPC = document.getElementById('input-busqueda-pc');       // Buscador horizontal PC
+    const inputMovil = document.getElementById('input-busqueda-movil'); // Buscador menú lateral móvil
+
+    // Caso 1: El usuario usó la capa flotante oscura
+    if (inputCapa && inputCapa.value.trim() !== "") {
+        ejecutarBusquedaInterna(inputCapa.value);
+    } 
+    // Caso 2: El usuario usó la barra de PC
+    else if (inputPC && inputPC.value.trim() !== "") {
+        ejecutarBusquedaInterna(inputPC.value);
+    } 
+    // Caso 3: El usuario usó el menú lateral móvil
+    else if (inputMovil && inputMovil.value.trim() !== "") {
+        ejecutarBusquedaInterna(inputMovil.value);
+    }
+    // Caso 4: Todo está vacío
+    else {
+        ejecutarBusquedaInterna(""); 
+    }
+}
+
+// ⌨️ Asegura que el "Enter" funcione en la barra de PC por código directo
+document.addEventListener("DOMContentLoaded", function() {
+    const inputPC = document.getElementById('input-busqueda-pc');
+    if (inputPC) {
+        inputPC.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                realizarBusquedaDesdeCapa();
+            }
+        });
+    }
+    
+    // ⌨️ Asegura que el "Enter" funcione también en el menú lateral móvil
+    const inputMovil = document.getElementById('input-busqueda-movil');
+    if (inputMovil) {
+        inputMovil.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                realizarBusquedaDesdeCapa();
+            }
+        });
+    }
+});
+</script> 
+ <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/50765646376" class="btn-float-wa" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function cambiarVideo(idYoutube, titulo, descripcion, elementoDestacado) {
+            // 1. Cambia el origen del iframe para reproducir el nuevo video con autoplay activo
+            document.getElementById('reproductor-principal').src = "https://www.youtube.com/embed/" + idYoutube + "?autoplay=1";
+            
+            // 2. Actualiza los textos informativos en pantalla
+            document.getElementById('titulo-clase').innerText = titulo;
+            document.getElementById('texto-descripcion').innerText = descripcion;
+
+            // 3. Remueve el estado activo visual de todas las opciones del menú lateral
+            const items = document.querySelectorAll('.clase-item');
+            items.forEach(item => item.classList.remove('activa'));
+
+            // 4. Activa visualmente el botón sobre el que se hizo click
+            elementoDestacado.classList.add('activa');
+        }
+    </script>
+
+    <script>
+function cambiarVideo(nombreArchivo, titulo, descripcion, elementoDestacado) {
+    const contenedor = document.querySelector('.reproductor-wrapper');
+    
+    // 1. Borramos todo el contenido del contenedor (el video viejo muere aquí)
+    contenedor.innerHTML = '';
+    
+    // 2. Creamos un nuevo elemento de video desde cero
+    const videoNuevo = document.createElement('video');
+    videoNuevo.id = 'reproductor-principal';
+    videoNuevo.controls = true;
+    videoNuevo.width = 600; // O el ancho que desees
+    videoNuevo.style.width = '100%';
+    
+    // 3. Creamos la fuente del video
+    const source = document.createElement('source');
+    source.src = nombreArchivo; // Aquí recibe 'video2.mp4', etc.
+    source.type = 'video/mp4';
+    
+    // 4. Unimos todo
+    videoNuevo.appendChild(source);
+    contenedor.appendChild(videoNuevo);
+    
+    // 5. Forzamos la carga y reproducción
+    videoNuevo.load();
+    videoNuevo.play().catch(e => console.log("Esperando interacción del usuario"));
+    
+    // 6. Actualizamos textos
+    document.getElementById('titulo-clase').innerText = titulo;
+    document.getElementById('texto-descripcion').innerText = descripcion;
+
+    // 7. Estilo activo
+    const items = document.querySelectorAll('.clase-item');
+    items.forEach(item => item.classList.remove('activa'));
+    elementoDestacado.classList.add('activa');
+}
+</script>
+</body>
+</html>

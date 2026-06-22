@@ -1,0 +1,1733 @@
+/* ============================================================
+   1. CONFIGURACIÓN BASE (RESET)
+   ============================================================ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   2. ENCABEZADO DE 3 NIVELES (MÓVIL & PC)
+   ============================================================ */
+
+/* --- BARRA 1: WHATSAPP (AZUL OSCURO) --- */
+.bar-whatsapp {
+    background-color: #003366; 
+    padding: 8px 5%;
+    display: flex;
+    justify-content: center; /* Centra el WhatsApp en la barra superior */
+}
+
+.wa-content a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white !important;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* --- BARRA 2: PRINCIPAL (AZUL CLARO / LOGO) --- */
+.bar-main {
+    background-color: #0076b6; 
+    padding: 10px 5%;
+    display: flex;
+    justify-content: space-between; /* Reparte: Menú | Logo | Iconos */
+    align-items: center;
+}
+
+/* Iconos de la barra principal */
+.bar-main i {
+    color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre búsqueda, usuario y carrito */
+}
+
+.logo-center img {
+    height: 45px; /* Tamaño del logo de WestCam */
+    width: auto;
+    display: block;
+}
+
+/* Estilo especial para el Carrito */
+.cart-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #ffcc00; /* Amarillo para que resalte */
+    color: #003366;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* --- BARRA 3: REDES Y AYUDA (AZUL OSCURO) --- */
+.bar-social-bottom {
+    background-color: #003366;
+    padding: 8px 5%;
+    display: flex;
+    justify-content: space-between; /* Redes a la izquierda, Link a la derecha */
+    align-items: center;
+}
+
+.social-group {
+    display: flex;
+    gap: 12px;
+}
+
+.social-img {
+    height: 22px;
+    width: auto;
+    transition: transform 0.2s;
+}
+
+.social-img:hover {
+    transform: scale(1.2);
+}
+
+.help-link a {
+    color: white !important;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   3. CONTENIDO (SECCIONES Y BOTONES)
+   ============================================================ */
+section {
+    background: white;
+    margin: 20px auto; 
+    width: 90%; 
+    max-width: 800px; 
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    padding: 20px; 
+}
+
+h2 { color: #003366; }
+
+button {
+    background-color: #0076b6;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* ============================================================
+   4. AJUSTE PARA PANTALLAS MUY PEQUEÑAS
+   ============================================================ */
+@media (max-width: 400px) {
+    .wa-number { font-size: 0.8rem; }
+    .header-icons { gap: 10px; }
+    .logo-img { height: 35px; }
+}
+
+/* --- SECCIÓN HERO CORREGIDA --- */
+.hero-section {
+    position: relative;
+    min-height: 450px; /* Altura mínima para que siempre se vea bien */
+    height: auto;      /* CLAVE: Crece si el texto es mucho */
+    background-image: url('cam.jpg'); 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.6); /* Un poquito más oscuro para que el amarillo resalte más */
+    flex: 1; /* Ocupa todo el alto disponible */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 15px; /* Espacio interno para que nada toque los bordes */
+}
+
+.hero-content {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Título Amarillo - Más pequeño para móvil */
+.hero-title {
+    color: #ffcc00;
+    font-size: 1.8rem; /* Bajamos de 2.5 a 1.8 para que no se salga */
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* Subtítulo Blanco */
+.hero-subtitle {
+    color: #ffffff;
+    font-size: 1rem; /* Un poco más pequeño */
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+/* 1. EL CONTENEDOR (Organiza los dos botones) */
+.hero-buttons {
+    display: flex;
+    flex-direction: column; /* Uno sobre otro */
+    align-items: center;    /* Centrados */
+    gap: 15px;              /* Separación entre ellos */
+    margin-top: 25px;       /* Espacio respecto al texto blanco */
+    width: 100%;
+}
+
+/* 2. ESTILO BASE (Para ambos botones) */
+.btn-products, .btn-contact {
+    /* Esto quita el morado y el subrayado para siempre */
+    color: white !important; 
+    text-decoration: none !important;
+    
+    /* Tamaño y forma */
+    width: 240px;
+    padding: 12px 0;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    
+    /* Alineación de iconos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transition: 0.3s;
+}
+
+/* 3. BOTÓN AZUL (Ver productos) */
+.btn-products {
+    background-color: #003366; /* Azul oscuro */
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none; /* Quita la raya de abajo del enlace */
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.btn-products:hover {
+    background-color: #0056b3; /* Un azul más claro al pasar el mouse */
+}
+
+/* 4. BOTÓN TRANSPARENTE (Contáctenos) */
+.btn-contact {
+    background-color: transparent !important;
+    border: 2px solid white !important; /* El borde que se perdió */
+}
+
+/* 5. COLOR DE LAS FLECHITAS */
+.btn-products i, .btn-contact i {
+    color: white !important;
+}
+
+/* 6. EFECTO AL PASAR EL MOUSE (Opcional pero recomendado) */
+.btn-products:hover { background-color: #004075 !important; }
+.btn-contact:hover { background-color: white !important; color: #002b4e !important; }
+
+/* Contenedor General */
+.contenedor-productos {
+    padding: 50px 5%;
+    background-color: #ffffff;
+}
+
+.seccion-titulo {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+/* Configuración de la Rejilla */
+.grid-cuadricula {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales en móvil */
+    gap: 30px 15px; /* Espacio vertical y horizontal */
+}
+
+/* Cada tarjeta de producto */
+.tarjeta-camara {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tarjeta-camara img {
+    width: 100%;
+    max-width: 160px; /* Tamaño controlado de la imagen */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.tarjeta-camara p {
+    color: #000000; /* Texto negro como pediste */
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+    padding: 0 5px;
+    margin: 0;
+}
+
+/* --- SECCIÓN FINAL CON IMAGEN --- */
+.seccion-final {
+    position: relative;
+    min-height: 400px;
+    background-image: url('zo.jfif'); /* Pon tu imagen aquí */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Esto da un efecto de movimiento pro al hacer scroll */
+    margin-top: 40px;
+}
+
+.overlay-final {
+    background-color: rgba(0, 0, 0, 0.7); /* Capa oscura para legibilidad */
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.contenido-final {
+    text-align: center;
+    max-width: 900px;
+}
+
+/* Texto Amarillo */
+.titulo-final {
+    color: #ffcc00 !important;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* Texto Blanco */
+.texto-final {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* --- BOTÓN CONTACTO (Blanco/Transparente) --- */
+.btn-contacto-final {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent !important;
+    color: white !important;
+    border: 2px solid #ffffff !important;
+    padding: 12px 35px;
+    text-decoration: none !important;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-contacto-final:hover {
+    background-color: white !important;
+    color: #003366 !important;
+}
+
+/* --- FOOTER: BARRA DE BOLETÍN --- */
+.footer-principal {
+    width: 100%;
+    background-color: #0076b6; /* Azul claro como el de arriba */
+    color: white;
+}
+
+.barra-boletin {
+    padding: 40px 5%;
+    text-align: left; /* Cambiado de center a left */
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.input-boletin {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start; /* Cambiado de center a flex-start */
+    gap: 0;
+}
+
+.input-boletin input {
+    padding: 10px;
+    width: 250px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.input-boletin button {
+    width: auto;
+    margin-top: 0;
+    padding: 10px 25px;
+    background-color: #003366; /* Azul oscuro */
+    border-radius: 0 4px 4px 0;
+}
+
+/* --- BARRA DE CONTACTO --- */
+.barra-contacto {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Cambiado de space-between a flex-start */
+    gap: 30px; /* Espacio entre los bloques de información */
+    padding: 30px 5%;
+    background-color: #0076b6;
+    font-size: 0.9rem;
+    text-align: left; /* Asegura que el texto esté a la izquierda */
+}
+
+.info-bloque {
+    flex: 0 1 auto; /* Evita que los bloques se estiren y se centren */
+    min-width: 280px;
+    margin-bottom: 20px;
+}
+
+/* --- BARRA FINAL (COPYRIGHT) --- */
+.barra-copyright {
+    background-color: #003366; /* Azul más oscuro */
+    padding: 20px 5%;
+    text-align: center;
+}
+
+.links-legales {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.links-legales a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+/* --- BOTÓN FLOTANTE WHATSAPP --- */
+/* --- BOTÓN FLOTANTE WHATSAPP --- */
+.btn-float-wa {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px; /* 🛠️ Lo subí a 30px para que no tape el footer */
+    right: 40px;  /* 🛠️ ¡AQUÍ ESTÁ EL TRUCO! Lo movimos a 40px para empujarlo más a la izquierda */
+    background-color: #25d366; /* Verde oficial WhatsApp */
+    color: #FFF;
+    border-radius: 50%; /* 50% asegura que sea un círculo perfecto */
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3); /* Una sombra más suave y moderna */
+    z-index: 999999; /* Para que quede encima de todo siempre */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.btn-float-wa:hover {
+    transform: scale(1.1);
+    color: white;
+}
+/* Contenedor principal de contacto */
+.info-bloque-contacto {
+    text-align: left;
+    color: white;
+    font-family: sans-serif;
+}
+
+.info-bloque-contacto h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* La rayita gris debajo de CONTÁCTENOS */
+.linea-decorativa {
+    width: 30px;
+    height: 3px;
+    background-color: #666; /* Gris como en la foto */
+    margin-bottom: 20px;
+}
+
+/* Estilo para cada fila (Icono + Texto) */
+.item-contacto {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px; /* Espacio entre icono y texto */
+    margin-bottom: 18px;
+}
+
+.item-contacto i {
+    font-size: 1.1rem;
+    margin-top: 4px; /* Alinea el icono con la primera línea de texto */
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Color específico para el icono de WhatsApp */
+.color-wa {
+    color: #25d366;
+}
+
+.item-contacto p {
+    margin: 0;
+    line-height: 1.4;
+    font-size: 0.95rem;
+}
+
+.item-contacto strong {
+    font-weight: bold;
+}
+
+/* --- ESTILO DEL MENÚ LATERAL --- */
+.menu-side {
+    height: 100%;
+    width: 0; /* Empieza escondido */
+    position: fixed;
+    z-index: 2000; /* Por encima de todo */
+    top: 0;
+    left: 0;
+    background-color: #f4f4f4; /* Gris claro de la imagen */
+    overflow-x: hidden;
+    transition: 0.4s; /* Velocidad al abrirse */
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+/* Buscador dentro del menú */
+.menu-header {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Contenedor blanco con borde gris fino */
+.buscar-contenedor {
+    display: flex;
+    width: 90%;
+    border: 1px solid #dcdcdc; /* Borde suave */
+    background: white;
+    height: 45px; /* Altura fija para que se vea ordenado */
+    margin: 10px auto; /* Centra el buscador en el menú */
+}
+
+/* El cuadro donde escribes */
+.buscar-contenedor input {
+    border: none;
+    padding: 0 15px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #666;
+}
+
+/* El botón de la lupa (Cuadrado y azul) */
+.buscar-contenedor button {
+    background-color: #0099bc; /* El azul de tu imagen */
+    color: white;
+    border: none;
+    width: 55px; /* Ancho fijo para la lupa */
+    height: 100%; /* Que ocupe todo el alto del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0; /* ESTO ELIMINA LAS PUNTAS REDONDEADAS */
+    margin: 0; /* Elimina cualquier espacio extra */
+}
+
+.buscar-contenedor button i {
+    font-size: 1.2rem;
+}
+
+.btn-cerrar {
+    font-size: 30px;
+    text-decoration: none;
+    color: #666;
+}
+
+/* Enlaces del menú */
+.enlaces-menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.enlaces-menu a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #666; /* Gris de la letra */
+    font-weight: bold;
+    display: block;
+    border-bottom: 1px solid #e0e0e0; /* Línea separadora suave */
+    transition: 0.3s;
+    text-transform: uppercase; /* TODO EN MAYÚSCULA */
+}
+
+.enlaces-menu a:hover {
+    background-color: #e8e8e8;
+    color: #003366;
+}
+
+/* Estilo de la capa de búsqueda */
+.search-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* La caja blanca de la imagen */
+.search-box {
+    display: flex;
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.search-box input {
+    flex: 1;
+    padding: 15px 20px; /* 15 arriba/abajo, 20 a los lados */
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Busca el estilo del botón azul */
+.search-btn-icon {
+    background-color: #27a3cc; /* El color azul que estás usando */
+    color: white;
+    border: none;
+    padding: 0 25px; /* Más espacio a los lados */
+    cursor: pointer;
+    font-size: 1rem; /* Ajusta este tamaño para que la lupa se vea igual a la foto */
+    border-radius: 0px; /* Asegúrate de que no sea redondeado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-search {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+        /* --- AJUSTES DE IDENTIDAD VISUAL --- */
+        .bar-main i, .bar-main a { color: #ffffff !important; } /* Iconos blancos en barra principal */
+        .bar-whatsapp span { color: white; font-weight: bold; margin-left: 5px; }
+        
+        /* Contenido de Mi Cuenta */
+        .seccion-cuenta { padding: 40px 5%; max-width: 500px; margin: auto; }
+        .seccion-cuenta h2 { font-size: 1.5rem; color: #444; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; box-sizing: border-box; }
+        .btn-azul-west { background: #27a3cc; color: white; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .texto-privacidad { font-size: 0.85rem; color: #666; text-align: justify; line-height: 1.5; margin: 20px 0; }
+
+        /* Estilos Footer basados en Captura de pantalla 2026-05-01 203406_3.jpg */
+        .linea-naranja { height: 3px; width: 40px; background-color: #ff6600; margin-bottom: 20px; }
+        .item-contacto { display: flex; align-items: flex-start; margin-bottom: 20px; color: white; }
+        .item-contacto i { font-size: 1.2rem; margin-right: 15px; margin-top: 4px; }
+        .item-contacto strong { display: block; font-size: 1rem; }
+    
+        .beneficios-container { padding: 40px 10%; text-align: left; max-width: 800px; margin: auto; }
+        .beneficio-item { margin-bottom: 25px; color: black; }
+        .beneficio-item h3 { font-size: 1.1rem; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+        .beneficio-item p { font-size: 0.95rem; margin-left: 35px; color: #444; }
+        
+        .checkout-card { 
+            border: 1px solid #ddd; border-radius: 20px; padding: 20px; 
+            max-width: 400px; margin: 20px auto; font-family: Arial, sans-serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .pago-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .input-pago { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; }
+        .btn-pagar { 
+            width: 100%; padding: 15px; background-color: #e0e0e0; border: none; 
+            border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; 
+        }
+
+
+         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; overflow-x: hidden; }
+
+        /* --- HEADER CORREGIDO (Para que no se vea grande) --- */
+        header { width: 100%; }
+
+        /* Barra WhatsApp */
+        .bar-whatsapp { background-color: #002147; padding: 8px 0; text-align: center; }
+        .wa-content a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px; 
+            font-weight: bold;
+        }
+
+        /* Barra Principal Azul Claro */
+        .bar-main { 
+            background-color: #0076b6; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 20px; 
+            color: white; 
+        }
+        .bar-main i { font-size: 1.3rem; cursor: pointer; }
+        .logo-center img { height: 40px; width: auto; display: block; }
+
+        .header-icons { display: flex; align-items: center; gap: 15px; }
+        .cart-container { position: relative; cursor: pointer; }
+        .cart-count { 
+            background: #f1c40f; 
+            color: black; 
+            border-radius: 50%; 
+            padding: 2px 6px; 
+            font-size: 11px; 
+            position: absolute; 
+            top: -10px; 
+            right: -10px; 
+            font-weight: bold; 
+        }
+
+        /* Barra Social Inferior */
+        .bar-social-bottom { 
+            background-color: #002147; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 20px; 
+        }
+        .social-group { display: flex; gap: 15px; align-items: center; }
+        .social-img { height: 22px; width: auto; cursor: pointer; filter: brightness(1.2); }
+        .help-link a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            letter-spacing: 1px; 
+        }
+
+        /* --- CONTENIDO DEL CARRITO --- */
+        .cart-content { padding: 30px 20px; max-width: 600px; margin: auto; min-height: 400px; }
+        .table-header { display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 10px; color: #888; font-weight: bold; font-size: 0.9rem; }
+        
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #eee; }
+        .product-info { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .product-info img { width: 90px; border-radius: 5px; }
+        .product-text { font-size: 0.85rem; color: #555; line-height: 1.4; }
+        
+        .quantity-box { border: 1px solid #333; padding: 5px; width: 45px; text-align: center; font-size: 1rem; }
+
+        .btn-cart-action { 
+            background-color: #666; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            margin: 10px 0; 
+            cursor: pointer; 
+            width: 100%; 
+            max-width: 250px; 
+            text-align: left; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+        }
+
+        .totals-box { margin-top: 30px; border-top: 1px solid #ddd; }
+        .total-row { display: flex; justify-content: space-between; padding: 12px 0; color: #666; font-size: 1rem; }
+        
+        .btn-next { 
+            background-color: #666; 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            width: 100%; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER --- */
+        .footer-blue { background-color: #0076b6; color: white; padding: 40px 25px; }
+        .footer-blue h3 { font-size: 1.2rem; margin-bottom: 15px; }
+        .footer-blue p { font-size: 0.9rem; line-height: 1.6; }
+        .footer-dark { background-color: #002147; color: white; padding: 25px; text-align: center; font-size: 0.8rem; line-height: 1.8; }
+    
+        
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333; }
+
+        /* --- HEADER (Imagen 1) --- */
+        .bar-whatsapp { background-color: #002147; padding: 8px 0; text-align: center; }
+        .wa-content a { color: white; text-decoration: none; font-size: 0.9rem; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: bold; }
+        .bar-main { background-color: #0076b6; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; color: white; }
+        .logo-center img { height: 45px; }
+        .header-icons { display: flex; gap: 15px; align-items: center; }
+        .cart-container { position: relative; }
+        .cart-count { background: #f1c40f; color: black; border-radius: 50%; padding: 2px 6px; font-size: 11px; position: absolute; top: -10px; right: -10px; font-weight: bold; }
+        .bar-social-bottom { background-color: #002147; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+        .social-group img { height: 20px; margin-right: 10px; }
+        .help-link a { color: white; text-decoration: none; font-size: 0.8rem; font-weight: bold; }
+
+        /* --- TEXTO INFORMATIVO --- */
+        .info-text { padding: 25px; max-width: 800px; margin: auto; line-height: 1.6; font-size: 0.95rem; text-align: justify; }
+
+        /* --- FORMULARIO DE FACTURACIÓN (Imagen 2) --- */
+        .checkout-container { max-width: 800px; margin: auto; padding: 0 20px 50px 20px; display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .billing-form h2 { font-size: 1.2rem; border-bottom: 2px solid #0076b6; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 20px 0; background: #eee; padding: 10px; border-radius: 5px; }
+
+        /* --- MÉTODO DE PAGO (Imagen 3) --- */
+        .payment-box { border: 2px solid #ddd; border-radius: 20px; padding: 25px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .order-summary { margin-bottom: 25px; }
+        .order-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+        .payment-method-card { border: 1px solid #ccc; border-radius: 10px; padding: 20px; margin-top: 20px; }
+        .card-icons { float: right; display: flex; gap: 5px; }
+        .card-icons img { height: 20px; }
+        .btn-submit { background-color: #e0e0e0; color: #333; border: 1px solid #bbb; padding: 15px; width: 100%; font-size: 1.2rem; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+        .btn-submit:hover { background-color: #d0d0d0; }
+
+        /* --- FOOTER (Imagen 4) --- */
+        .footer-blue { background-color: #0076b6; color: white; padding: 40px 25px; }
+        .footer-blue h3 { margin-top: 0; border-bottom: 2px solid white; display: inline-block; padding-bottom: 5px; }
+        .footer-dark { background-color: #002147; color: white; padding: 20px; text-align: center; font-size: 0.8rem; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 100; }
+
+
+    /* =========================================================================
+   📱 MEDIA QUERY GLOBAL PARA CELULARES (Pantallas de menos de 768px)
+   ========================================================================= */
+@media (max-width: 768px) {
+
+    /* 1. COMPORTAMIENTO GLOBAL DE LA TIENDA */
+    body {
+        font-size: 14px; /* Achicamos un pelín la letra general en teléfonos */
+    }
+
+    /* 2. EL HEADER Y BARRA DE NAVEGACIÓN (Para que no se amontone todo arriba) */
+    .bar-main {
+        padding: 10px !important;
+        justify-content: space-between !important;
+    }
+
+    .logo-center img {
+        max-width: 120px !important; /* El logo más pequeño para que quepan los iconos */
+    }
+
+    .header-icons {
+        gap: 10px !important; /* Juntamos un poquito más los iconos de lupa, usuario y carrito */
+    }
+
+    .bar-social-bottom .social-group {
+        gap: 15px !important; /* Espaciado cómodo para los botones de IG, YT y TikTok */
+    }
+
+
+    /* 3. ESTRUCTURAS EN ZIG-ZAG O COLUMNAS (Index y Catálogo) */
+    /* Si tienes contenedores tipo Flex o Grid que muestran productos de 3 en 3 o de 4 en 4,
+       en celular los obligamos a que se pongan uno debajo del otro (una sola columna) */
+    .productos-grid, 
+    .seccion-flex,
+    .carrito-contenedor > div {
+        flex-direction: column !important;
+        display: flex !important;
+        gap: 20px !important;
+    }
+
+    /* Forzamos a que las cajas de productos ocupen el ancho completo del celular */
+    .tarjeta-producto, 
+    .carrito-contenedor section, 
+    .carrito-contenedor aside {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        box-sizing: border-box;
+    }
+
+
+    /* 4. ESPECÍFICO DEL CARRITO (Tu código anterior estructurado aquí dentro) */
+    .item-carrito {
+        flex-wrap: wrap;
+        padding: 15px 0 !important;
+    }
+
+    .item-carrito > div:nth-child(1) { width: 25% !important; }
+    .item-carrito > div:nth-child(2) { width: 75% !important; padding-left: 10px !important; }
+    .item-carrito > div:nth-child(3) { 
+        width: 100% !important; 
+        justify-content: flex-end !important; 
+        margin-top: 10px; 
+        margin-right: 0 !important; 
+    }
+
+
+    /* 5. EL FOOTER EN CELULAR */
+    /* Los bloques de "Suscríbase" y "Contáctenos" se ponen en fila vertical */
+    .footer-principal {
+        padding: 20px 10px !important;
+        text-align: center !important;
+    }
+
+    .input-boletin {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px;
+    }
+
+    .input-boletin input, 
+    .input-boletin button {
+        width: 100% !important; /* Input y botón de boletín a lo ancho del cel */
+        border-radius: 4px !important;
+    }
+}
+
+/* =========================================================================
+   🖥️ OPTIMIZACIÓN TOTAL PARA PC (Pantallas de más de 768px)
+   ========================================================================= */
+@media (min-width: 769px) {
+
+    /* 1. SECCIONES COMPLETAS (Rompe el candado de los 800px) */
+    /* Esto hace que los banners y bloques principales vayan de lado a lado */
+    section.hero-section,
+    .seccion-final {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0px !important; /* Cuadrado perfecto en PC */
+    }
+
+    /* Ajustamos el tamaño del banner en PC para que se vea imponente */
+    .hero-section {
+        min-height: 550px !important;
+    }
+
+    .hero-overlay {
+        padding: 80px 20px !important;
+    }
+
+    /* Los dos botones del banner se ponen uno al lado del otro en PC */
+    .hero-buttons {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 20px !important;
+    }
+
+
+    /* 2. CONTENEDORES DE CONTENIDO (Páginas de texto, formularios o listas) */
+    /* Las secciones normales (como Mi Cuenta o la info de texto) se verán más amplias en PC */
+    section, 
+    .info-text, 
+    .checkout-container,
+    .cart-content {
+        max-width: 1200px !important; /* Espacio ideal para leer en monitores */
+        width: 85% !important;
+        margin: 40px auto !important; /* Centrado elegante con buen aire arriba y abajo */
+    }
+
+
+    /* 3. REJILLA DE PRODUCTOS (Index y Catálogo) */
+    /* En PC, pasar de 2 columnas apretadas a 4 columnas amplias y profesionales */
+    .grid-cuadricula {
+        grid-template-columns: repeat(4, 1fr) !important; /* 4 cámaras en fila */
+        gap: 40px 25px !important; /* Más separación entre productos */
+    }
+
+    .tarjeta-camara img {
+        max-width: 220px !important; /* Imágenes más grandes para que se aprecien en PC */
+    }
+
+
+    /* 4. DISEÑO DEL FOOTER EN PC */
+    /* Hacemos que el boletín y los datos de contacto no se queden alineados a la izquierda solos */
+    .barra-contacto {
+        display: flex !important;
+        justify-content: space-between !important; /* Reparte los bloques a lo ancho */
+        gap: 20px !important;
+    }
+
+    .info-bloque {
+        flex: 1 !important; /* Todos los bloques miden lo mismo */
+        min-width: 250px !important;
+    }
+
+    /* El input del correo y su botón se ven más elegantes en PC */
+    .input-boletin input {
+        width: 350px !important; /* Más largo en computadoras */
+    }
+}
+
+/* ============================================================
+   🎯 CONFIGURACIÓN DEL MENÚ HORIZONTAL PARA PC
+   ============================================================ */
+
+/* Agrupa el logo y los enlaces para que salgan en la misma fila a la izquierda */
+.logo-nav-container {
+    display: flex;
+    align-items: center;
+    gap: 35px; /* Espacio entre el logo y el inicio de los enlaces */
+    flex: 1;   /* Empuja los iconos de la derecha a su esquina */
+}
+
+/* Estilo para los enlaces de navegación en PC */
+.nav-links-pc {
+    display: flex;
+    gap: 25px; /* Espacio entre cada palabra (Inicio, Productos...) */
+}
+
+.nav-links-pc a {
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+/* Efecto cuando pasas el mouse por encima en la PC */
+.nav-links-pc a:hover {
+    color: #ffcc00 !important; /* Cambia a amarillo WestCam pro */
+}
+
+/* 🚨 EN PC: Escondemos por completo el icono de las 3 líneas */
+.btn-menu-movil {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    
+    /* 🚨 EN CELULAR: Escondemos el menú horizontal para que no rompa la barra */
+    .nav-links-pc {
+        display: none !important;
+    }
+
+    /* 📱 EN CELULAR: Reaparece el botón de las 3 líneas para abrir el menú lateral */
+    .btn-menu-movil {
+        display: block !important;
+    }
+
+    /* Ajuste extra para que el logo se mantenga centrado u ordenado en celular */
+    .logo-nav-container {
+        gap: 0;
+        justify-content: center;
+    }
+}
+
+/* ============================================================
+   🚫 INTERRUPTORES INFALIBLES DE VISIBILIDAD
+   ============================================================ */
+
+/* REGLAS PARA PC (Pantallas grandes) */
+@media (min-width: 769px) {
+    .ocultar-en-pc {
+        display: none !important; /* Esconde las 3 líneas en la PC */
+    }
+    .logo-nav-container {
+        display: flex !important;
+        align-items: center !important;
+        gap: 35px !important;
+    }
+    .nav-links-pc {
+        display: flex !important;
+        gap: 25px !important;
+    }
+    .nav-links-pc a {
+        color: white !important;
+        text-decoration: none !important;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .nav-links-pc a:hover {
+        color: #ffcc00 !important;
+    }
+}
+
+/* REGLAS PARA CELULAR (Pantallas chicas) */
+@media (max-width: 768px) {
+    .ocultar-en-movil {
+        display: none !important; /* Esconde el menú de letras en el celular */
+    }
+    .ocultar-en-pc {
+        display: block !important; /* Asegura que reaparezcan las 3 líneas en el cel */
+    }
+}
+
+/* =========================================================================
+   🖥️ AJUSTE RESPONSIVO LIMPIO PARA PC (Sin romper estructuras internas)
+   ========================================================================= */
+/* =========================================================================
+   🖥️ AJUSTE RESPONSIVO DEFINITIVO PARA PC (Nivelado y Centrado)
+   ========================================================================= */
+@media (min-width: 769px) {
+
+    /* 1. Bloque de Suscríbase (Se queda flotando a la izquierda) */
+    .barra-boletin, footer > div:first-child, .footer-section:first-child {
+        float: left !important;
+        width: 45% !important; /* Toma casi la mitad izquierda */
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* 2. Bloque de Contáctenos (¡ALINEADO ARRIBA EN LA FRANA DERECHA!) */
+    .barra-contacto, footer > div:nth-child(2), .footer-section:nth-child(2) {
+        float: right !important;
+        width: 20% !important; /* Toma la mitad derecha */
+        
+        /* 🚀 Corrección: Eliminamos márgenes y rellenos para que suba del todo */
+        margin-top: 0 !important; 
+        margin-bottom: 0 !important;
+        padding-top: 0 !important; 
+    }
+
+    /* 3. LA BARRA OSCURA DE ABAJO (Cruza completa y centra el texto) */
+    footer > div:last-child, 
+    footer > section:last-child, 
+    .footer-bottom {
+        clear: both !important;        /* Rompe el flotado de arriba para quedarse abajo */
+        display: block !important;
+        width: 100% !important;        /* Se estira completa de lado a lado */
+        margin-top: 50px !important;   /* La separa del boletín y contacto */
+        padding: 20px 0 !important;    /* Espacio interno arriba y abajo */
+        
+        /* 🎯 Centra los textos y el copyright en el medio */
+        text-align: center !important; 
+    }
+
+    /* Centra los enlaces sueltos (Inicio, Tiendas, Términos...) en el medio */
+    footer > div:last-child a,
+    footer > div:last-child p,
+    .footer-bottom a,
+    .footer-bottom p {
+        display: inline-block !important;
+        text-align: center !important;
+        margin: 5px 15px !important; /* Espaciado horizontal limpio entre palabras */
+    }
+}
+
+/* 🚀 FIX DE NITIDEZ PARA ICONOS E IMÁGENES EN PC */
+.barra-contacto img, 
+footer img {
+    width: 24px !important;        /* 🔥 Fuerza a que los iconos tengan un tamaño real y sutil en PC */
+    height: auto !important;
+    object-fit: contain !important;
+    
+    /* Trucos de renderizado para forzar al navegador a mejorar el contraste y la nitidez */
+    image-rendering: -webkit-optimize-contrast !important;
+    image-rendering: crisp-edges !important;
+    image-rendering: pixelated !important;
+}
+
+/* =========================================================================
+   🖥️ REDISEÑO DE HEADER DE ALTA FIDELIDAD PARA PC (Móvil intacto)
+   ========================================================================= */
+@media (min-width: 769px) {
+
+    /* 1. OCULTAR EL MENÚ HAMBURGUESA EN PC */
+    .menu-hamburguesa, 
+    .fa-bars, 
+    header .fa-bars {
+        display: none !important; /* Desaparece por completo el icono de tres líneas */
+    }
+
+    /* 2. CONTENEDOR PRINCIPAL DEL HEADER (FLEXBOX HORIZONTAL) */
+    .header-principal, 
+    header .nav-bar,
+    .main-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important; /* Distribuye los bloques a lo largo de la pantalla */
+        align-items: center !important;           /* Centra todo verticalmente */
+        padding: 10px 4% !important;              /* Colchón interno en los bordes */
+    }
+
+    /* 3. LOGO MÁS GRANDE */
+    .logo, 
+    .logo img, 
+    header .brand img {
+        height: 55px !important;  /* 🚀 Escalamos la altura del logo de WestCam para que resalte */
+        width: auto !important;
+        transform: scale(1.1);    /* Ajuste fino de escala analítica */
+    }
+
+    /* 4. MENÚ DE NAVEGACIÓN (Inicio, Productos, Contacto, Servicios) */
+    .menu-navegacion, 
+    header ul.nav-links {
+        display: flex !important; /* En móvil seguro estaba oculto, aquí lo activamos en línea */
+        flex-direction: row !important;
+        list-style: none !important;
+        margin: 0 20px !important;
+        padding: 0 !important;
+        gap: 25px !important;     /* Separación uniforme entre cada enlace */
+    }
+
+    .menu-navegacion a, header ul.nav-links a {
+        font-weight: 600 !important;
+        text-transform: capitalize !important; /* Pone la primera letra en mayúscula */
+        text-decoration: none !important;
+        color: #ffffff !important;             /* Ajusta al color de tu fuente */
+        font-size: 16px !important;
+    }
+
+    /* 5. BARRA DE BÚSQUEDA HORIZONTAL (Estilo input + botón) */
+    .contenedor-busqueda, 
+    header .search-form {
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 1 30% !important; /* Le asigna un 30% del ancho del header */
+        margin: 0 15px !important;
+    }
+
+    .contenedor-busqueda input, header .search-form input {
+        width: 100% !important;
+        padding: 8px 12px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px 0 0 4px !important; /* Redondeado solo a la izquierda */
+        outline: none !important;
+    }
+
+    .contenedor-busqueda button, header .search-form button {
+        padding: 8px 15px !important;
+        background-color: #061d36 !important; /* Color oscuro a juego con tu paleta */
+        color: white !important;
+        border: none !important;
+        border-radius: 0 4px 4px 0 !important; /* Redondeado solo a la derecha */
+        cursor: pointer !important;
+        white-space: nowrap !important;
+    }
+
+    /* 6. ICONO DE SESIÓN + TEXTO "MI CUENTA" */
+    .icono-usuario, 
+    header .user-account {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important; /* Despega el texto del icono */
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+    }
+
+    /* Truco: Si no tienes el texto escrito en el HTML, CSS lo inyecta por ti */
+    .icono-usuario::after, header .user-account::after {
+        content: "Mi Cuenta" !important; /* Agrega el string de texto al lado del icono */
+        font-weight: 500 !important;
+    }
+
+    /* 7. CARRITO DE COMPRAS (Se mantiene intacto al final) */
+    .icono-carrito, 
+    header .cart-icon {
+        margin-left: 15px !important; /* Pequeña separación de seguridad */
+    }
+}
+
+/* =========================================================================
+   📱 RESET Y ESCUDO PARA MÓVIL (Esconde lo nuevo para mantener tu diseño actual)
+   ========================================================================= */
+@media (max-width: 768px) {
+    .enlaces-menu-pc, 
+    .buscador-horizontal-pc, 
+    .user-text-pc {
+        display: none !important; /* Apaga los elementos de PC en pantallas chicas */
+    }
+}
+
+/* =========================================================================
+   🖥️ COMPORTAMIENTO PREMIUM PARA PC (A partir de 769px)
+   ========================================================================= */
+@media (min-width: 769px) {
+
+    /* 1. Ocultamos la hamburguesa y la lupa vieja de móvil */
+    .bar-main > .fa-bars, 
+    .header-icons .lupa-movil,
+    #mySidenav {
+        display: none !important;
+    }
+
+    /* 2. Convertimos la barra principal en una fila perfecta de extremo a extremo */
+    .bar-main {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 4% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Desactivamos el centrado móvil del logo y lo agrandamos */
+    .logo-center {
+        position: static !important;
+        transform: none !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    .logo-center img {
+        height: 55px !important; /* Logo más grande en PC */
+        width: auto !important;
+    }
+
+    /* 4. Acomodamos tus enlaces en el centro al lado del logo */
+    .enlaces-menu-pc {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 25px !important;
+        margin-left: 35px !important;
+        margin-right: auto !important; /* Empuja el resto de elementos a la derecha */
+    }
+
+    .enlaces-menu-pc a {
+        color: #ffffff !important; /* Ajusta al color de tu texto */
+        text-decoration: none !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        transition: color 0.2s;
+    }
+
+    .enlaces-menu-pc a:hover {
+        color: #2bb3db !important; /* Efecto cian al pasar el mouse */
+    }
+
+    /* 5. Barra de búsqueda horizontal completa (Calco de tu imagen) */
+    .buscador-horizontal-pc {
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 1 32% !important; /* Define qué tan larga es la barra */
+        height: 40px !important;
+        margin-right: 30px !important;
+    }
+
+    .buscador-horizontal-pc input {
+        width: 100% !important;
+        height: 100% !important;
+        background-color: #ffffff !important;
+        border: 1px solid #e2e2e2 !important;
+        border-right: none !important;
+        padding: 0 12px !important;
+        font-size: 14px !important;
+        outline: none !important;
+        color: #333333 !important;
+    }
+
+    .buscador-horizontal-pc button {
+        width: 50px !important;
+        height: 100% !important;
+        background-color: #2bb3db !important; /* Tu color cyan exacto */
+        color: #ffffff !important;
+        border: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 16px !important;
+    }
+
+    /* 6. Modificación de iconos (Mi cuenta con texto al lado) */
+    .header-icons {
+        display: flex !important;
+        align-items: center !important;
+        gap: 20px !important;
+    }
+
+    .header-icons .user-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+    }
+
+    .user-text-pc {
+        display: inline !important; /* Hace visible el texto sólo en PC */
+    }
+}
+
+@media (min-width: 769px) {
+    
+    /* 5. BARRA DE BÚSQUEDA TOTALMENTE ALINEADA Y PEGADA */
+.buscador-horizontal-pc {
+    display: flex !important;
+    align-items: center !important;
+    height: 38px !important;        /* Altura idéntica para ambos */
+    flex: 0 1 32% !important;       /* Ancho de la barra */
+    margin-right: 30px !important;  /* Separación de los iconos */
+    box-sizing: border-box !important;
+}
+
+/* La caja blanca de escribir */
+.buscador-horizontal-pc input {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e2e2 !important;
+    border-right: none !important;         /* 🔥 Quita el borde derecho para unirse al botón */
+    border-radius: 4px 0 0 4px !important;/* 🔥 Redondea sólo las esquinas izquierdas */
+    padding: 0 12px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    color: #333333 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+/* El botón cian de la lupa */
+.buscador-horizontal-pc button {
+    width: 46px !important;
+    height: 100% !important;
+    background-color: #2bb3db !important;/* Tu color cian */
+    color: #ffffff !important;
+    border: 1px solid #2bb3db !important;
+    border-radius: 0 4px 4px 0 !important;/* 🔥 Redondea sólo las esquinas derechas */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+    /* Efecto visual al pasar el cursor */
+    .buscador-horizontal-pc button:hover {
+        background-color: #1ea1c6 !important; /* Un cian ligeramente más intenso */
+    }
+}
+
+/* =========================================================================
+   🖥️ CONFIGURACIÓN EXCLUSIVA PARA PC (Desde 769px)
+   ========================================================================= */
+@media (min-width: 769px) {
+
+    /* 🔥 Mantiene la imagen completa y mete el texto adentro de forma simétrica */
+    .banner-servicios-pc {
+        height: 440px !important;            /* Altura proporcional para pantallas de PC */
+        background-size: 100% 100% !important;/* Fuerza a que la imagen se vea completa sin recortarse */
+        padding-left: 80px !important;       /* Empuja el texto más a la derecha para encajar en el diseño */
+    }
+
+    .titulo-servicios-pc {
+        font-size: 3rem !important;          /* Letra más grande y legible en monitores */
+    }
+
+    /* Pone tus dos bloques de servicios uno al lado del otro */
+    .grid-servicios-pc {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 30px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .bloque-servicio-item {
+        flex: 1 !important;
+        max-width: 500px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .bloque-servicio-item img {
+        height: 280px !important;
+        object-fit: cover !important;
+    }
+
+    /* Ensancha el menú del caso en PC */
+    .seccion-curso-pc {
+        padding: 80px 40px !important;
+    }
+
+    .caja-texto-curso-pc {
+        max-width: 75% !important;
+    }
+
+    /* 🔥 Pone los botones uno al lado del otro */
+    .botones-curso-container-pc {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 20px !important;
+    }
+
+    .botones-curso-container-pc a {
+        width: 220px !important;
+    }
+}
+
+@media (min-width: 769px) {
+
+    /* 🔥 AJUSTE PARA ACHICAR LA IMAGEN PRINCIPAL DEL CURSO */
+    .clase-de-tu-imagen-del-curso {
+        max-width: 450px !important;    /* 1. Limita el ancho para que no se gigante en monitores */
+        height: 320px !important;       /* 2. Le da una altura fija y estilizada */
+        object-fit: cover !important;   /* 3. Hace que la foto se adapte al nuevo tamaño sin deformarse */
+        border-radius: 12px !important; /* Mantiene las esquinas arqueadas estéticas */
+        margin: 0 auto !important;      /* La centra por si está en un contenedor propio */
+        display: block !important;
+    }
+
+}
+
+@media (min-width: 769px) {
+
+    .checkout-page-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important; 
+        justify-content: space-between !important; 
+        max-width: 1200px !important;       
+        margin: 30px auto !important; 
+        padding: 0 20px !important;
+        gap: 50px !important; /* Espacio de separación en el centro */
+    }
+
+    /* Columna Izquierda */
+    .beneficios-container {
+        flex: 1.2 !important;               
+        text-align: left !important;    
+        margin-top: -30px !important;    
+    }
+
+    /* Columna Derecha */
+    .checkout-card {
+        flex: 0.8 !important;               
+        min-width: 380px !important; /* Evita que la tarjeta de pago se encoja feo */
+    }
+}
+
+/* 📱 ASÍ SE VERÁ EN EL CELULAR: Tamaño original, fluida y sin estirarse */
+.imagen-top-checkout {
+    width: 100% !important;
+    max-width: 500px !important; /* Evita que se haga gigante si el cel es grande */
+    height: auto !important;     /* 🔥 Esto hace que NO se estire ni se corte en el móvil */
+    border-radius: 12px !important;
+    display: inline-block !important;
+}
+
+/* 🖥️ ASÍ SE VERÁ EN LA PC: Más controlada y pequeña */
+@media (min-width: 769px) {
+    .imagen-top-checkout {
+        max-width: 450px !important;
+        height: 280px !important;  /* En PC sí la recortamos un poquito para que no ocupe tanto espacio */
+        object-fit: cover !important;
+    }
+}
+
+@media (min-width: 769px) {
+
+    /* El contenedor principal se convierte en dos columnas */
+    .checkout-container {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important; /* Alinea los techos de ambas cajas */
+        justify-content: space-between !important; 
+        max-width: 1200px !important;       /* Controla el ancho máximo en pantallas grandes */
+        margin: 30px auto !important;       /* Centra todo el bloque en la PC */
+        padding: 0 20px !important;
+        gap: 50px !important;               /* Espacio de separación limpio en el centro */
+    }
+
+    /* 👈 Columna Izquierda: Datos de Facturación */
+    .billing-form {
+        flex: 1.1 !important;               /* Toma un espacio ligeramente mayor para los campos */
+    }
+
+    /* 👉 Columna Derecha: Cuadro de Pedido y Método de Pago */
+    .payment-box {
+        flex: 0.9 !important;               /* Caja un poco más compacta a la derecha */
+        background: #ffffff !important;     /* Mantiene el fondo limpio */
+        
+        /* 🔥 OPCIONAL: Si quieres que el bloque de pago se quede fijo arriba mientras llenan los datos de la izquierda */
+        position: sticky !important;
+        top: 20px !important;
+        z-index: 10 !important;
+    }
+}
+
+/* Configuración General */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+}
+
+/* Barra de Navegación Superior */
+.header-aula {
+    background: #003366;
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-aula h1 { 
+    margin: 0; 
+    font-size: 1.5rem; 
+}
+.btn-volver { 
+    color: #27a3cc; 
+    text-decoration: none; 
+    font-weight: bold; 
+    transition: color 0.3s ease;
+}
+.btn-volver:hover {
+    color: #ffffff;
+}
+
+/* Contenedor del Aula Virtual */
+.aula-container {
+    display: flex;
+    max-width: 1300px;
+    margin: 30px auto;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    min-height: 550px;
+}
+
+/* 📑 Barra Lateral de Clases */
+.sidebar-clases {
+    width: 35%;
+    background: #002244;
+    color: #b0c4de;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.sidebar-clases h3 {
+    color: white;
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #27a3cc;
+}
+.lista-clases {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.clase-item {
+    padding: 15px 12px;
+    background: #002d5c;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+.clase-item:hover {
+    background: #1a4c7f;
+    color: #27a3cc;
+}
+/* Clase activa e iluminada */
+.clase-item.activa {
+    background: #27a3cc;
+    color: white;
+    font-weight: bold;
+}
+
+/* 📽️ Área del Reproductor (Derecha) */
+.contenido-video {
+    width: 65%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+.titulo-clase-actual {
+    margin-top: 0;
+    color: #003366;
+    font-size: 1.6rem;
+}
+.reproductor-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Mantiene proporción de pantalla 16:9 */
+    height: 0;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.reproductor-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.descripcion-clase {
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #27a3cc;
+    color: #555;
+    line-height: 1.6;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Responsive para Pantallas Móviles */
+@media (max-width: 768px) {
+    .aula-container { 
+        flex-direction: column-reverse; 
+        margin: 10px; 
+    }
+    .sidebar-clases { 
+        width: 100%; 
+    }
+    .contenido-video { 
+        width: 100%; 
+        padding: 15px; 
+    }
+}
