@@ -441,12 +441,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
 <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-    // Conexión directa y propia para evitar bloqueos de otros archivos
-    const urlSupa = 'https://kfgfriaanvvujgxxksbj.supabase.co'; 
-    const keySupa = 'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS'; 
-    const supaDirecto = createClient(urlSupa, keySupa);
+    import { supabase } from './supabaseClient.js';
 
     const btnPagar = document.getElementById('btn-pagar');
 
@@ -454,39 +449,39 @@ document.addEventListener("DOMContentLoaded", function() {
         btnPagar.addEventListener('click', async (e) => {
             e.preventDefault();
             
-            // 1. Alerta de vida inmediata para saber que el botón responde
-            alert("⏳ Conectando con Supabase... Haz clic en Aceptar para enviar los datos.");
-
+            console.log("🚀 Intentando registrar la compra en Supabase...");
+            
+            // Si el usuario inició sesión tiene su ID, si no, queda como null
             const usuarioId = localStorage.getItem('usuario_id_actual') || null;
 
-            // ⚠️ NOTA: En tu mensaje dijiste "tabla curso comprado". 
-            // Si en Supabase tu tabla se llama 'cursos_comprados' o 'productos_comprados', 
-            // cambia el texto de aquí abajo por el nombre exacto de tu tabla:
-            const nombreDeTuTabla = 'cursos_pagos'; 
+            // 🛑 REVISIÓN 1: Asegúrate de que tu tabla en Supabase se llame exactamente 'cursos_pagos'
+            // Si le pusiste 'cursos_comprados' o 'productos_comprados', cámbialo aquí abajo:
+            const { data, error } = await supabase
+                .from('cursos_pagos') 
+                .insert([{ 
+                    usuario_id: usuarioId, 
+                    nombre_curso: 'Instalación de cámaras', 
+                    pagado: true 
+                }])
+                .select();
 
-            try {
-                const { data, error } = await supaDirecto
-                    .from(nombreDeTuTabla) 
-                    .insert([{ 
-                        usuario_id: usuarioId, 
-                        nombre_curso: 'Instalación de cámaras', 
-                        pagado: true 
-                    }]);
-
-                if (error) {
-                    alert("❌ Supabase rechazó el guardado:\n" + error.message + "\n\nVerifica si el nombre de la tabla es correcto.");
-                } else {
-                    alert("✅ ¡Registro guardado exitosamente en la tabla!");
-                }
-            } catch (err) {
-                alert("💥 Error de conexión: " + err.message);
+            // 🕵️‍♂️ Aquí descubriremos por qué no aparecía en la base de datos
+            if (error) {
+                console.error("❌ ERROR DETECTADO EN SUPABASE:", error);
+                
+                // Te mandará una alerta con la razón exacta del rechazo
+                alert("⚠️ Supabase rechazó el registro.\n\n" +
+                      "Código: " + error.code + "\n" +
+                      "Mensaje: " + error.message + "\n" +
+                      "Detalle: " + (error.details || "Ninguno"));
+            } else {
+                console.log("✅ ¡Registro guardado con éxito!", data);
+                alert("🎉 ¡Pago registrado en la base de datos con éxito!");
             }
 
-            // Te manda a los videos pase lo que pase para que el cliente no se quede trabado
+            // Después de mostrarte el aviso, te manda a ver los videos
             window.location.href = "aula.html"; 
         });
-    } else {
-        alert("🚨 ERROR CRÍTICO: El script no encontró el botón. Asegúrate de que el botón tenga id='btn-pagar'.");
     }
 </script>
 </body>
