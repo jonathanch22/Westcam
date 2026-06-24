@@ -365,49 +365,47 @@
             `;
         }
 
-</script>// ============================================================
-        // MOTOR PRINCIPAL DE ANIMACIÓN Y RECIBO
-        // ============================================================
-       // =========================================================================
-// PROCESAMIENTO Y REGISTRO EN BASE DE DATOS
-// =========================================================================
-// Asegúrate de que esta configuración esté arriba de tu función
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-    // CAMBIO: La variable se llamará 'supabaseClient' para no chocar con la librería
-    const supabaseClient = supabase.createClient(
-        'https://kfgfriaanvvujgxxksbj.supabase.co', 
-        'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS'
-    );
 </script>
 
-<script>
-    async function procesarPagoSimulado(event) {
+
+<script type="module">
+    // Importamos la instancia desde tu archivo configurado
+    import { supabase } from './supabaseClient.js';
+
+    // Declaramos la función para que sea global y el formulario pueda verla
+    window.procesarPagoSimulado = async function(event) {
         event.preventDefault();
 
-        // CAMBIO: Aquí usamos 'supabaseClient' en lugar de 'supabase'
+        // Obtenemos el total (ajusta el ID si es necesario)
+        const montoElement = document.getElementById('pago-monto-final');
+        const totalAPagar = montoElement ? montoElement.getAttribute('data-total') : 0;
+
+        console.log("Intentando guardar...");
+
         try {
-            const { data, error } = await supabaseClient
+            const { data, error } = await supabase
                 .from('productos_comprados')
                 .insert([{ 
                     usuario_id: 1, 
                     nombre_producto: "Producto de Prueba", 
-                    precio: 10.00 
+                    precio: parseFloat(totalAPagar) 
                 }]);
 
             if (error) throw error;
-            console.log("¡Éxito! Datos enviados.");
+
+            console.log("¡ÉXITO! Datos guardados:", data);
+            alert("¡Guardado correctamente!");
             
-            // Opcional: Aquí podrías activar la lógica de mostrar el mensaje de éxito
-            
+            // Aquí puedes redirigir o mostrar mensaje de éxito
+            document.getElementById("form-pago-completo").style.display = "none";
+            document.getElementById("recibo-exitoso").style.display = "block";
+
         } catch (err) {
             console.error("Error al guardar:", err.message);
-            alert("Error al procesar el pago: " + err.message);
+            alert("Error: " + err.message);
         }
     }
+</script>
 </script>
 </script>
 </body>
