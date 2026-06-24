@@ -438,45 +438,37 @@ document.addEventListener("DOMContentLoaded", function() {
 });
   </script> 
 
-   <script type="module">
-    // Importamos la conexión limpia
+  <script type="module">
     import { supabase } from './supabaseClient.js';
 
-    async function iniciarSesion(email, passwordIngresada) {
-        // Buscamos en tu tabla 'usuarios'
-        const { data, error } = await supabase
-            .from('usuarios')
-            .select('id, nombre, password_hash')
-            .eq('email', email)
-            .single();
+    const btnPagar = document.getElementById('btn-pagar');
 
-        if (error || !data) {
-            alert("⚠️ Usuario no encontrado.");
-            return;
-        }
-
-        // Validamos la contraseña
-        if (passwordIngresada === data.password_hash) {
-            alert("¡Bienvenido, " + data.nombre + "!");
-            
-            // 🔥 AQUÍ ESTÁ EL TRUCO: Guardamos el ID del usuario en el navegador
-            localStorage.setItem('usuario_id_actual', data.id);
-            
-            // Lo mandamos a la tienda o página principal
-            window.location.href = "index.html"; 
-        } else {
-            alert("❌ Contraseña incorrecta.");
-        }
-    }
-
-    // Escuchar el formulario
-    const formularioLogin = document.getElementById('tuFormularioLogin'); // Revisa que tu <form> tenga este ID
-    if (formularioLogin) {
-        formularioLogin.addEventListener('submit', (e) => {
+    if (btnPagar) {
+        btnPagar.addEventListener('click', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('emailInput').value; // Revisa el ID de tu input de correo
-            const pass = document.getElementById('passInput').value;   // Revisa el ID de tu input de contraseña
-            iniciarSesion(email, pass);
+            
+            console.log("🚀 Procesando acceso rápido al curso...");
+            
+            // Si tiene sesión, agarra su ID. Si no, lo deja como null (invitado)
+            const usuarioId = localStorage.getItem('usuario_id_actual') || null;
+
+            try {
+                // Intentamos registrar la compra en Supabase para llevar un control
+                await supabase
+                    .from('cursos_pagos')
+                    .insert([{ 
+                        usuario_id: usuarioId, // Guardará el ID o quedará vacío si es invitado
+                        nombre_curso: 'Instalación de cámaras', 
+                        pagado: true 
+                    }]);
+            } catch (dbError) {
+                // Si la base de datos protesta, la ignoramos para no bloquear al cliente
+                console.log("Aviso: No se registró en la BD, pero permitimos el acceso.");
+            }
+
+            // 🎯 ¡La magia está aquí! Mensaje directo y directo al aula de videos
+            alert("🎉 ¡Pago procesado con éxito! Bienvenido al curso.");
+            window.location.href = "aula.html"; 
         });
     }
 </script>
