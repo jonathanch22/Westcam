@@ -369,15 +369,21 @@
 
 
 <script type="module">
-    import { supabase } from './supabaseClient.js';
+    // Importamos desde el NUEVO archivo, usando el NUEVO nombre
+    import { clientePago } from './supabasePago.js';
 
     window.procesarPagoSimulado = async function(event) {
-        event.preventDefault();
-        console.log("Iniciando proceso de pago...");
+        event.preventDefault(); // Evita que la página se recargue
+        console.log("Conectando a la base de datos...");
+
+        // Mostrar pantalla de carga
+        document.getElementById('form-pago-completo').style.display = 'none';
+        document.getElementById('pantalla-procesando').style.display = 'block';
 
         const miUuid = "f1c4d8dd-f8e8-4a1c-931d-88cd4de7a2b7";
 
-        const { data, error } = await supabase
+        // Insertamos en la tabla productos_comprados usando clientePago
+        const { data, error } = await clientePago
             .from('productos_comprados')
             .insert([{ 
                 usuario_id: miUuid, 
@@ -385,15 +391,20 @@
                 precio: 10.00 
             }]);
 
+        // Ocultamos pantalla de carga
+        document.getElementById('pantalla-procesando').style.display = 'none';
+
         if (error) {
             console.error("Error en Supabase:", error.message);
-            alert("Error: " + error.message);
+            alert("Error al guardar: " + error.message);
+            document.getElementById('form-pago-completo').style.display = 'block';
         } else {
-            console.log("¡Éxito!");
-            alert("¡Pago realizado!");
+            console.log("¡Éxito! Datos guardados en productos_comprados.");
+            document.getElementById('recibo-exitoso').style.display = 'block';
         }
     };
 </script>
-</script>
+</body>
+</html>
 </body>
 </html>     
