@@ -438,6 +438,45 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+    <script type="module">
+    import { supabase } from './supabaseClient.js';
+
+    const formPago = document.getElementById('form-pago');
+
+    if (formPago) {
+        formPago.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // 1. Obtener sesión del usuario
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                alert("⚠️ Debes iniciar sesión primero.");
+                window.location.href = "mi-cuenta.html";
+                return;
+            }
+
+            // 2. Insertar en la tabla 'cursos_pagos'
+            // Nota: Asegúrate de que los nombres de columnas coincidan exactamente
+            const { error } = await supabase
+                .from('cursos_pagos')
+                .insert([{ 
+                    usuario_id: user.id, // Esto conecta con tu clave foránea
+                    nombre_curso: 'Instalación de cámaras', 
+                    pagado: true 
+                }]);
+
+            if (error) {
+                console.error("Error Supabase:", error);
+                alert("❌ Error: " + error.message);
+            } else {
+                alert("🎉 ¡Pago exitoso! Accediendo al curso...");
+                window.location.href = "aula.html";
+            }
+        });
+    }
+</script>
 </script> 
 </body>
 </html>
