@@ -377,8 +377,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    // Esto crea la variable antes de que la función se ejecute
-    const supabase = supabase.createClient(
+    // CAMBIO: La variable se llamará 'supabaseClient' para no chocar con la librería
+    const supabaseClient = supabase.createClient(
         'https://kfgfriaanvvujgxxksbj.supabase.co', 
         'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS'
     );
@@ -388,9 +388,9 @@
     async function procesarPagoSimulado(event) {
         event.preventDefault();
 
-        // Ahora supabase ya existe porque el script de arriba ya corrió
+        // CAMBIO: Aquí usamos 'supabaseClient' en lugar de 'supabase'
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('productos_comprados')
                 .insert([{ 
                     usuario_id: 1, 
@@ -400,10 +400,15 @@
 
             if (error) throw error;
             console.log("¡Éxito! Datos enviados.");
+            
+            // Opcional: Aquí podrías activar la lógica de mostrar el mensaje de éxito
+            
         } catch (err) {
             console.error("Error al guardar:", err.message);
+            alert("Error al procesar el pago: " + err.message);
         }
     }
+</script>
 </script>
 </body>
 </html>     
