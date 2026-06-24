@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestCam - Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="mySidenav" class="menu-side">
+        <div class="menu-header">
+            <a href="javascript:void(0)" class="btn-cerrar" onclick="closeNav()">&times;</a>
+        </div>
+        <div class="buscar-contenedor">
+            <input type="text" id="input-busqueda-capa" placeholder="Buscar en la tienda...">
+            <button onclick="realizarBusquedaDesdeCapa()" style="cursor: pointer;">BUSCAR</button>
+        </div>
+        <nav class="enlaces-menu">
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="https://wa.me/50765646376">Contacto</a>
+            <a href="servicios.html">Servicios</a>
+        </nav>
+    </div>
+
+    <header>
+        <div class="bar-whatsapp">
+            <div class="wa-content">
+                <a href="https://wa.me/50765646376" target="_blank">
+                    <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.2rem;"></i>
+                    <span class="wa-number">+507 6564-6376</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="bar-main">
+            <i class="fa-solid fa-bars" onclick="openNav()" style="cursor: pointer; padding: 5px; font-size: 25px;"></i> 
+            
+            <a href="index.html" class="logo-center">
+                <img src="tu-logo.png" alt="WestCam">
+            </a>
+
+            <nav class="enlaces-menu-pc">
+                <a href="index.html">Inicio</a>
+                <a href="productos.html">Productos</a>
+                <a href="https://wa.me/50765646376">Contacto</a>
+                <a href="servicios.html">Servicios</a>
+            </nav>
+
+            <div class="buscador-horizontal-pc">
+                <input type="text" id="input-busqueda-pc" placeholder="Buscar en la tienda..." 
+                       onkeypress="if(event.key === 'Enter') { document.getElementById('input-busqueda-capa').value = this.value; realizarBusquedaDesdeCapa(); }">
+                
+                <button onclick="document.getElementById('input-busqueda-capa').value = document.getElementById('input-busqueda-pc').value; realizarBusquedaDesdeCapa();" style="cursor: pointer;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <i class="fa-solid fa-magnifying-glass lupa-movil" onclick="toggleBuscador()" style="cursor: pointer; padding: 5px;"></i>
+                
+                <a href="mi-cuenta.html" class="user-link">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="user-text-pc">Mi Cuenta</span>
+                </a>
+                
+                <div class="cart-container" onclick="window.location.href='carrito.html'">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-count" id="cart-count-badge">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-social-bottom">
+            <div class="social-group">
+                <a href="https://www.instagram.com/westcam_tienda?igsh=MXB6OTZhOWRkcGh2ag==" target="_blank" rel="noopener noreferrer">
+                    <img src="ig.png" alt="Instagram" class="social-img">
+                </a>
+                <a href="https://youtube.com/@westcam-f3p?si=spaYfMI415lulb6O" target="_blank" rel="noopener noreferrer">
+                    <img src="yy-Photoroom.png" alt="YouTube" class="social-img">
+                </a>
+                <a href="https://www.tiktok.com/@westcam_tienda?_r=1&_t=ZS-96EONMIittJ" target="_blank" rel="noopener noreferrer">
+                    <img src="tk.png" alt="TikTok" class="social-img">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div id="capa-busqueda" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; font-family: sans-serif;">
+        <div style="display: flex; width: 90%; max-width: 600px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 0; overflow: hidden; height: 60px; position: relative; box-sizing: border-box;">
+            <input type="text" id="input-busqueda-capa-flotante" placeholder="Buscar..." style="flex: 1; padding: 0 20px; border: none; outline: none; font-size: 1.3rem; height: 100%; box-sizing: border-box; min-width: 0;"
+                    onkeydown="if(event.key === 'Enter') ejecutarBusquedaInterna(this.value)">
+            <button onclick="ejecutarBusquedaInterna(this.previousElementSibling.value)" style="background: #27a3cc; color: white; border: none; width: 80px; height: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 0; margin: 0; flex-shrink: 0; padding: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; margin: auto;">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <section class="info-text" style="max-width: 1000px; margin: 20px auto; padding: 0 20px;">
+        <p><strong>Estimado Cliente de WestCam:</strong><br>
+        Por favor, introduzca correctamente la información solicitada para gestionar su pedido o agendar su instalación. Los campos marcados con asterisco (*) son obligatorios para validar su solicitud en tiempo real.</p>
+        <p>La dirección que coloque en "Datos de Facturación" será la referencia para la entrega de equipos y la zona de cobertura técnica (Arraiján o La Chorrera).</p>
+    </section>
+
+    <main style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+        
+        <form id="form-pago-completo" class="checkout-container" onsubmit="procesarPagoSimulado(event)">
+            
+            <div class="billing-form">
+                <h2>Datos del Cliente (Facturación)</h2>
+                <div class="form-group">
+                    <label>Nombre*</label>
+                    <input type="text" id="pago-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Apellido*</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Dirección de Calle *</label>
+                    <input type="text" placeholder="Nombre de calle y número de casa" required style="margin-bottom: 10px;">
+                    <input type="text" placeholder="Apartamento, habitación, etc.">
+                </div>
+                <div class="form-group">
+                    <label>País / Región *</label>
+                    <select required><option>Panamá</option></select>
+                </div>
+                <div class="form-group">
+                    <label>Provincia *</label>
+                    <select required>
+                        <option value="">Seleccionar</option>
+                        <option value="Panamá Oeste">Panamá Oeste</option>
+                        <option value="Panamá">Panamá</option>
+                        <option value="Colón">Colón</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Código postal / ZIP (opcional)</label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono (opcional)</label>
+                    <input type="tel">
+                </div>
+            </div>
+
+            <div class="payment-box">
+                <h2 style="text-align: center;">Tu Pedido</h2>
+                <div class="order-summary" id="resumen-pedido-pago"></div>
+
+                <h3>Método Pago</h3>
+                <div class="payment-method-card">
+                    <div class="card-icons">
+                        <img src="oo.png" alt="Visa">
+                    </div>
+                    <label style="display: flex; align-items: center; gap: 10px; font-weight: bold; margin-bottom: 15px;">
+                        <i class="fa-solid fa-credit-card"></i> Tarjeta Crédito / Débito
+                    </label>
+                    
+                    <div class="form-group">
+                        <label>Número de tarjeta *</label>
+                        <input type="text" id="pago-tarjeta" placeholder="1222 3333 4444 5555" maxlength="19" required>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Fecha de expiración *</label>
+                            <input type="text" placeholder="MM / YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Código de seguridad *</label>
+                            <input type="password" placeholder="CVC" maxlength="4" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" style="width: 100%; margin-top: 15px; background-color: #27a3cc; color: white; padding: 15px; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 1.1rem;">
+                    <i class="fa-solid fa-lock"></i> Realizar Pedido
+                </button>
+            </div>
+        </form>
+
+        <div id="pantalla-procesando" style="display: none; text-align: center; padding: 80px 20px; font-family: sans-serif;">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 4rem; color: #27a3cc; margin-bottom: 20px;"></i>
+            <h2 style="color: #333;">Procesando pago de forma segura...</h2>
+        </div>
+
+        <div id="recibo-exitoso" style="display: none; max-width: 600px; margin: 0 auto; background-color: #fff; border: 1px solid #e0e0e0; border-top: 5px solid #28a745; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 8px; font-family: sans-serif;">
+            <div style="text-align: center;">
+                <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: #28a745;"></i>
+                <h1>¡Pago Aprobado!</h1>
+            </div>
+            <button onclick="window.location.href='index.html'" style="width: 100%; padding: 15px; background: #003366; color: white; border: none; cursor: pointer;">Volver a la Tienda</button>
+        </div>
+    </main>
+
+    <footer class="footer-principal">
+        </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabase = supabase.createClient(
+            'https://kfgfriaanvvujgxxksbj.supabase.co', 
+            'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS'
+        );
+
+        function openNav() { document.getElementById("mySidenav").style.width = "300px"; }
+        function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
+            const contenedorResumen = document.getElementById('resumen-pedido-pago');
+            if (contenedorResumen && carrito.length > 0) {
+                let subtotal = carrito.reduce((a, b) => a + (b.precio * b.cantidad), 0);
+                contenedorResumen.innerHTML = `<div>Total: $${subtotal.toFixed(2)}</div>`;
+            }
+        });
+
+        async function procesarPagoSimulado(event) {
+            event.preventDefault();
+            document.getElementById("form-pago-completo").style.display = "none";
+            document.getElementById("pantalla-procesando").style.display = "block";
+
+            try {
+                const { data, error } = await supabase
+                    .from('productos_comprados')
+                    .insert([{ 
+                        usuario_id: 1, 
+                        nombre_producto: "Producto de Prueba", 
+                        precio: 10.00 
+                    }]);
+
+                if (error) throw error;
+                document.getElementById("pantalla-procesando").style.display = "none";
+                document.getElementById("recibo-exitoso").style.display = "block";
+            } catch (err) {
+                alert("Error: " + err.message);
+                document.getElementById("pantalla-procesando").style.display = "none";
+                document.getElementById("form-pago-completo").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
