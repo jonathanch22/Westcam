@@ -295,9 +295,9 @@
     </div>
     <p style="font-size: 0.9rem; color: #000000;">Curso Instalación</p>
 
-    <button type="submit" class="btn-azul-west" style="width: 100%; padding: 16px; background-color: #27a3cc; color: #ffffff; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: block; text-transform: uppercase;">
-        Pagar y Acceder al Curso
-    </button>
+   <button type="button" id="btn-pagar" class="btn-azul-west">
+    Pagar y Acceder al Curso
+</button>
 
     <p style="font-size: 0.6rem; color: #000000; text-align: center; margin-top: 15px; font-weight: 500;">
         Las transacciones son seguras y están cifradas.
@@ -438,52 +438,47 @@ document.addEventListener("DOMContentLoaded", function() {
 });
   </script> 
 
-    <script type="module">
-        // Importamos desde nuestro nuevo archivo independiente
-        import { clienteCurso } from './supabaseCurso.js';
+   <script type="module">
+    // Importamos la conexión limpia
+    import { supabase } from './supabaseClient.js';
 
-        const btnPagar = document.getElementById('btn-pagar');
+    async function iniciarSesion(email, passwordIngresada) {
+        // Buscamos en tu tabla 'usuarios'
+        const { data, error } = await supabase
+            .from('usuarios')
+            .select('id, nombre, password_hash')
+            .eq('email', email)
+            .single();
 
-        if (btnPagar) {
-            btnPagar.addEventListener('click', async (e) => {
-                e.preventDefault();
-                console.log("🚀 Iniciando pago seguro desde módulo independiente...");
-                
-                try {
-                    // 1. Verificar el usuario logueado usando clienteCurso
-                    const { data: { user }, error: userError } = await clienteCurso.auth.getUser();
-                    
-                    if (userError || !user) {
-                        alert("⚠️ Debes iniciar sesión antes de comprar el curso.");
-                        window.location.href = "mi-cuenta.html";
-                        return;
-                    }
-
-                    console.log("👤 Usuario detectado:", user.id);
-
-                    // 2. Insertar el pago en la tabla cursos_pagos
-                    const { error: insertError } = await clienteCurso
-                        .from('cursos_pagos')
-                        .insert([{ 
-                            usuario_id: user.id, 
-                            nombre_curso: 'Instalación de cámaras', 
-                            pagado: true 
-                        }]);
-
-                    if (insertError) {
-                        console.error("❌ Error en Supabase:", insertError);
-                        alert("❌ Error al procesar el pago: " + insertError.message);
-                    } else {
-                        console.log("✅ Registro de pago exitoso.");
-                        alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
-                        window.location.href = "aula.html";
-                    }
-
-                } catch (err) {
-                    console.error("💥 Error inesperado:", err);
-                }
-            });
+        if (error || !data) {
+            alert("⚠️ Usuario no encontrado.");
+            return;
         }
-    </script>
+
+        // Validamos la contraseña
+        if (passwordIngresada === data.password_hash) {
+            alert("¡Bienvenido, " + data.nombre + "!");
+            
+            // 🔥 AQUÍ ESTÁ EL TRUCO: Guardamos el ID del usuario en el navegador
+            localStorage.setItem('usuario_id_actual', data.id);
+            
+            // Lo mandamos a la tienda o página principal
+            window.location.href = "index.html"; 
+        } else {
+            alert("❌ Contraseña incorrecta.");
+        }
+    }
+
+    // Escuchar el formulario
+    const formularioLogin = document.getElementById('tuFormularioLogin'); // Revisa que tu <form> tenga este ID
+    if (formularioLogin) {
+        formularioLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value; // Revisa el ID de tu input de correo
+            const pass = document.getElementById('passInput').value;   // Revisa el ID de tu input de contraseña
+            iniciarSesion(email, pass);
+        });
+    }
+</script>
 </body>
 </html>
