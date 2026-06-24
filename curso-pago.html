@@ -474,41 +474,42 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
    <script type="module">
-        // Importamos usando clientePago desde el archivo independiente que creamos
-        import { clientePago } from './supabasePago.js';
+        // 1. Importamos 'clientePago' (Asegúrate de poner el nombre real de tu archivo aquí, ya sea .js o Pago.js)
+        import { clientePago } from './supabasePago.js'; 
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const formPago = document.getElementById('form-pago');
+        const formPago = document.getElementById('form-pago');
 
-            if (formPago) {
-                formPago.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    console.log("Procesando pago del curso...");
-                    
-                    // ID de prueba por si no hay sesión activa aún en tus pruebas locales
-                    const miUuid = "f1c4d8dd-f8e8-4a1c-931d-88cd4de7a2b7";
+        if (formPago) {
+            formPago.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // 2. Usamos 'clientePago' para verificar el usuario logueado
+                const { data: { user } } = await clientePago.auth.getUser();
+                
+                if (!user) {
+                    alert("⚠️ Debes iniciar sesión antes de comprar el curso.");
+                    window.location.href = "mi-cuenta.html";
+                    return;
+                }
 
-                    // Insertar el registro en 'cursos_pagos' usando clientePago
-                    const { data, error } = await clientePago
-                        .from('cursos_pagos')
-                        .insert([{ 
-                            usuario_id: miUuid, 
-                            nombre_curso: 'Instalación de cámaras', 
-                            pagado: true 
-                        }]);
+                // 3. Usamos 'clientePago' para insertar en la tabla de cursos_pagos
+                const { error } = await clientePago
+                    .from('cursos_pagos')
+                    .insert([{ 
+                        usuario_id: user.id, 
+                        nombre_curso: 'Instalación de cámaras', 
+                        pagado: true 
+                    }]);
 
-                    if (error) {
-                        console.error("Error Supabase:", error);
-                        alert("❌ Error al registrar curso: " + error.message);
-                    } else {
-                        console.log("¡Registro exitoso en cursos_pagos!");
-                        alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
-                        window.location.href = "aula.html";
-                    }
-                });
-            }
-        });
-    </script> 
+                if (error) {
+                    alert("❌ Error al procesar el pago: " + error.message);
+                } else {
+                    alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
+                    window.location.href = "aula.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 
