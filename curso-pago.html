@@ -293,18 +293,53 @@
   }
 </script>
 
-<form id="form-pago">
-    <button type="submit">Pagar y Acceder</button>
+<form id="form-pago" class="checkout-card">
+    <p style="font-size:0.85rem; color: black; font-weight: 500; margin-bottom: 10px;">Curso Instalación de cámaras</p>
+    
+    <div class="pago-header">
+        <img src="c.webp" class="img-producto-checkout" style="width: 190px; border-radius: 8px;">
+        <span style="font-size: 1.5rem; font-weight: bold;">$25.00</span>
+    </div>
+    
+    <p style="font-size: 0.8rem; margin-bottom: 5px;">Contacto</p>
+    <input type="email" id="pago-email" placeholder="Email address" class="input-pago" required>
+
+    <h3 style="text-align: center; margin: 20px 0;">Método Pago</h3>
+    
+    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 15px;">
+        <p style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;"><i class="fa-solid fa-credit-card"></i> Pago</p>
+        <label style="font-size: 0.8rem;">Número de tarjeta</label>
+        <div style="position: relative;">
+            <input type="text" placeholder="1222 333 444" class="input-pago" required>
+            <img src="oo.png" style="position: absolute; right: 10px; top: 18px; height: 20px;">
+        </div>
+        
+        <label style="font-size: 0.8rem;">Fecha de expiración</label>
+        <input type="text" placeholder="MM / YY" class="input-pago" required>
+        
+        <label style="font-size: 0.8rem;">País</label>
+        <select class="input-pago">
+            <option>Panamá</option>
+        </select>
+
+        <label style="font-size: 0.8rem;">Código de seguridad</label>
+        <input type="password" placeholder="CVC" class="input-pago" required>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px; font-weight: bold;">
+        <span>Resumen</span>
+        <span>$25.00</span>
+    </div>
+    <p style="font-size: 0.9rem; color: #000000;">Curso Instalación</p>
+
+    <button type="submit" class="btn-azul-west" style="width: 100%; padding: 16px; background-color: #27a3cc; color: #ffffff; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: block; text-transform: uppercase;">
+        Pagar y Acceder al Curso
+    </button>
+
+    <p style="font-size: 0.6rem; color: #000000; text-align: center; margin-top: 15px; font-weight: 500;">
+        Las transacciones son seguras y están cifradas.
+    </p>
 </form>
-    <!-- SCRIPT PARA EL MENÚ -->
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "300px";
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-    </script>
 
     <script>
     // Función inteligente: si está cerrado lo abre, si está abierto lo cierra
@@ -438,46 +473,42 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+   <script type="module">
+        // Importamos usando clientePago desde el archivo independiente que creamos
+        import { clientePago } from './supabasePago.js';
 
-    <script type="module">
-    import { supabase } from './supabaseClient.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            const formPago = document.getElementById('form-pago');
 
-    const formPago = document.getElementById('form-pago');
+            if (formPago) {
+                formPago.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    console.log("Procesando pago del curso...");
+                    
+                    // ID de prueba por si no hay sesión activa aún en tus pruebas locales
+                    const miUuid = "f1c4d8dd-f8e8-4a1c-931d-88cd4de7a2b7";
 
-    if (formPago) {
-        formPago.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // 1. Obtener sesión del usuario
-            const { data: { user } } = await supabase.auth.getUser();
-            
-            if (!user) {
-                alert("⚠️ Debes iniciar sesión primero.");
-                window.location.href = "mi-cuenta.html";
-                return;
-            }
+                    // Insertar el registro en 'cursos_pagos' usando clientePago
+                    const { data, error } = await clientePago
+                        .from('cursos_pagos')
+                        .insert([{ 
+                            usuario_id: miUuid, 
+                            nombre_curso: 'Instalación de cámaras', 
+                            pagado: true 
+                        }]);
 
-            // 2. Insertar en la tabla 'cursos_pagos'
-            // Nota: Asegúrate de que los nombres de columnas coincidan exactamente
-            const { error } = await supabase
-                .from('cursos_pagos')
-                .insert([{ 
-                    usuario_id: user.id, // Esto conecta con tu clave foránea
-                    nombre_curso: 'Instalación de cámaras', 
-                    pagado: true 
-                }]);
-
-            if (error) {
-                console.error("Error Supabase:", error);
-                alert("❌ Error: " + error.message);
-            } else {
-                alert("🎉 ¡Pago exitoso! Accediendo al curso...");
-                window.location.href = "aula.html";
+                    if (error) {
+                        console.error("Error Supabase:", error);
+                        alert("❌ Error al registrar curso: " + error.message);
+                    } else {
+                        console.log("¡Registro exitoso en cursos_pagos!");
+                        alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
+                        window.location.href = "aula.html";
+                    }
+                });
             }
         });
-    }
-</script>
-</script> 
+    </script> 
 </body>
 </html>
 
