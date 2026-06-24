@@ -255,43 +255,6 @@
     <a href="https://wa.me/50765646376" class="btn-float-wa" target="_blank">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
-     <script type="module">
-  import { supabase } from './supabaseClient.js';
-
-  // Asumimos que el formulario de pago tiene el id "form-pago"
-  const formPago = document.getElementById('form-pago');
-
-  if (formPago) {
-    formPago.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // 1. Verificar si hay alguien logueado
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        alert("⚠️ Debes iniciar sesión antes de comprar el curso.");
-        window.location.href = "mi-cuenta.html";
-        return;
-      }
-
-      // 2. Registrar el pago en Supabase
-      const { error } = await supabase
-        .from('cursos_pagos')
-        .insert([{ 
-          usuario_id: user.id, 
-          nombre_curso: 'Instalación de cámaras', 
-          pagado: true 
-        }]);
-
-      if (error) {
-        alert("❌ Error al procesar el pago: " + error.message);
-      } else {
-        alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
-        window.location.href = "aula.html";
-      }
-    });
-  }
-</script>
 
 <form id="form-pago" class="checkout-card">
     <p style="font-size:0.85rem; color: black; font-weight: 500; margin-bottom: 10px;">Curso Instalación de cámaras</p>
