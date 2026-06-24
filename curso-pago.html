@@ -438,21 +438,20 @@ document.addEventListener("DOMContentLoaded", function() {
 });
   </script> 
 
-    <!-- PROCESADOR DE PAGOS CON SUPABASE (MÓDULO SEGURO) -->
     <script type="module">
-        import { clientePago } from './supabasePago.js';
+        // Importamos desde nuestro nuevo archivo independiente
+        import { clienteCurso } from './supabaseCurso.js';
 
-        // Ahora escuchamos directamente el CLICK del botón por su ID, saltándonos el formulario roto
         const btnPagar = document.getElementById('btn-pagar');
 
         if (btnPagar) {
             btnPagar.addEventListener('click', async (e) => {
                 e.preventDefault();
-                console.log("🚀 Botón presionado. Conectando con Supabase...");
+                console.log("🚀 Iniciando pago seguro desde módulo independiente...");
                 
                 try {
-                    // 1. Verificar si hay un usuario con sesión activa
-                    const { data: { user }, error: userError } = await clientePago.auth.getUser();
+                    // 1. Verificar el usuario logueado usando clienteCurso
+                    const { data: { user }, error: userError } = await clienteCurso.auth.getUser();
                     
                     if (userError || !user) {
                         alert("⚠️ Debes iniciar sesión antes de comprar el curso.");
@@ -460,10 +459,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         return;
                     }
 
-                    console.log("👤 Usuario autenticado detectado con ID:", user.id);
+                    console.log("👤 Usuario detectado:", user.id);
 
-                    // 2. Registrar el pago en la tabla 'cursos_pagos'
-                    const { error: insertError } = await clientePago
+                    // 2. Insertar el pago en la tabla cursos_pagos
+                    const { error: insertError } = await clienteCurso
                         .from('cursos_pagos')
                         .insert([{ 
                             usuario_id: user.id, 
@@ -475,17 +474,15 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("❌ Error en Supabase:", insertError);
                         alert("❌ Error al procesar el pago: " + insertError.message);
                     } else {
-                        console.log("✅ Fila insertada correctamente.");
+                        console.log("✅ Registro de pago exitoso.");
                         alert("🎉 ¡Pago exitoso! Bienvenido al curso.");
                         window.location.href = "aula.html";
                     }
 
                 } catch (err) {
-                    console.error("💥 Error inesperado en el script:", err);
+                    console.error("💥 Error inesperado:", err);
                 }
             });
-        } else {
-            console.error("🚨 Error crítico: No se encontró el botón con el ID 'btn-pagar' en el HTML.");
         }
     </script>
 </body>
