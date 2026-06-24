@@ -436,9 +436,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
-  </script> 
-
-  <script type="module">
+ <script type="module">
     import { supabase } from './supabaseClient.js';
 
     const btnPagar = document.getElementById('btn-pagar');
@@ -447,27 +445,37 @@ document.addEventListener("DOMContentLoaded", function() {
         btnPagar.addEventListener('click', async (e) => {
             e.preventDefault();
             
-            console.log("🚀 Procesando acceso rápido al curso...");
+            console.log("🚀 Intentando registrar la compra en Supabase...");
             
-            // Si tiene sesión, agarra su ID. Si no, lo deja como null (invitado)
+            // Si el usuario inició sesión tiene su ID, si no, queda como null
             const usuarioId = localStorage.getItem('usuario_id_actual') || null;
 
-            try {
-                // Intentamos registrar la compra en Supabase para llevar un control
-                await supabase
-                    .from('cursos_pagos')
-                    .insert([{ 
-                        usuario_id: usuarioId, // Guardará el ID o quedará vacío si es invitado
-                        nombre_curso: 'Instalación de cámaras', 
-                        pagado: true 
-                    }]);
-            } catch (dbError) {
-                // Si la base de datos protesta, la ignoramos para no bloquear al cliente
-                console.log("Aviso: No se registró en la BD, pero permitimos el acceso.");
+            // 🛑 REVISIÓN 1: Asegúrate de que tu tabla en Supabase se llame exactamente 'cursos_pagos'
+            // Si le pusiste 'cursos_comprados' o 'productos_comprados', cámbialo aquí abajo:
+            const { data, error } = await supabase
+                .from('cursos_pagos') 
+                .insert([{ 
+                    usuario_id: usuarioId, 
+                    nombre_curso: 'Instalación de cámaras', 
+                    pagado: true 
+                }])
+                .select();
+
+            // 🕵️‍♂️ Aquí descubriremos por qué no aparecía en la base de datos
+            if (error) {
+                console.error("❌ ERROR DETECTADO EN SUPABASE:", error);
+                
+                // Te mandará una alerta con la razón exacta del rechazo
+                alert("⚠️ Supabase rechazó el registro.\n\n" +
+                      "Código: " + error.code + "\n" +
+                      "Mensaje: " + error.message + "\n" +
+                      "Detalle: " + (error.details || "Ninguno"));
+            } else {
+                console.log("✅ ¡Registro guardado con éxito!", data);
+                alert("🎉 ¡Pago registrado en la base de datos con éxito!");
             }
 
-            // 🎯 ¡La magia está aquí! Mensaje directo y directo al aula de videos
-            alert("🎉 ¡Pago procesado con éxito! Bienvenido al curso.");
+            // Después de mostrarte el aviso, te manda a ver los videos
             window.location.href = "aula.html"; 
         });
     }
