@@ -232,104 +232,8 @@
     <a href="https://wa.me/50765646376" class="btn-float-wa" target="_blank">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
-
-   <script type="module">
-  import { supabase } from './supabaseClient.js';
-
-  // ==========================================
-  // 1. PROCESAR REGISTRO CON SUPABASE
-  // ==========================================
-  window.procesarRegistro = async function(event) {
-    event.preventDefault();
-    console.log("🚀 Iniciando registro en Supabase...");
-
-    const usuario = document.getElementById("reg-usuario").value.trim();
-    const correo = document.getElementById("reg-correo").value.trim().toLowerCase();
-    const contrasena = document.getElementById("reg-pass").value;
-    const exitoBox = document.getElementById("exito-registro");
-
-    // Insertar en la tabla 'usuarios' de Supabase
-    const { data, error } = await supabase
-      .from('usuarios')
-      .insert([
-        { 
-          nombre: usuario, 
-          email: correo,
-          // Asegúrate de tener estas columnas exactas en tu tabla
-        }
-      ]);
-
-    if (error) {
-      console.error("❌ Error de Supabase:", error.message);
-      if (exitoBox) {
-          exitoBox.innerText = "Error: " + error.message;
-          exitoBox.style.color = "red";
-          exitoBox.style.display = "block";
-      }
-    } else {
-      console.log("✅ ¡Usuario guardado en Supabase!", data);
-      
-      // Mostrar mensaje de éxito
-      const mensajeBox = document.getElementById("mensaje-registro");
-      if (mensajeBox) mensajeBox.style.display = "block";
-      
-      if (exitoBox) {
-          exitoBox.innerText = "🎉 ¡Cuenta creada con éxito en la base de datos!";
-          exitoBox.style.color = "#27a3cc";
-          exitoBox.style.display = "block";
-      }
-
-      document.getElementById("form-registro").reset();
-    }
-  };
-
-  // ==========================================
-  // 2. PROCESAR LOGIN CON SUPABASE
-  // ==========================================
-  window.procesarLogin = async function(event) {
-    event.preventDefault();
-    const email = document.getElementById("login-usuario").value;
-    const pass = document.getElementById("login-pass").value;
-
-    console.log("🔐 Intentando iniciar sesión...");
-
-    // Aquí asumo que usas Supabase Auth para el login
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: pass
-    });
-
-    if (error) {
-      const errorBox = document.getElementById("error-login");
-      if (errorBox) {
-          errorBox.innerText = "❌ " + error.message;
-          errorBox.style.display = "block";
-      }
-    } else {
-      console.log("✅ Login exitoso");
-      
-      // Guardar bandera de sesión local para que tu panel la reconozca
-      localStorage.setItem("sesionActiva", JSON.stringify({
-          username: email.split('@')[0], // Usa la primera parte del correo como nombre temporal
-          email: email,
-          logueado: true
-      }));
-
-      window.location.reload(); 
-    }
-  };
-</script>
-    <!-- SCRIPT PARA EL MENÚ -->
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "300px";
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-    </script>
-
-    <script>
+<script>
+  
     // Función inteligente: si está cerrado lo abre, si está abierto lo cierra
     function toggleBuscador() {
         const capa = document.getElementById('capa-busqueda');
@@ -657,6 +561,47 @@ if (data) {
     window.location.href = "index.html";
 } else {
     alert("Usuario o contraseña incorrectos en la base de datos.");
+}
+
+    import { supabase } from './supabaseClient.js';
+
+async function iniciarSesion(email, passwordIngresada) {
+    // 1. Buscamos al usuario en la tabla 'usuarios' de Supabase
+    const { data, error } = await supabase
+        .from('usuarios')
+        .select('id, nombre, password_hash')
+        .eq('email', email)
+        .single();
+
+    if (error || !data) {
+        alert("Usuario no encontrado.");
+        return;
+    }
+
+    // 2. Comparación de contraseña (aquí verificas que sea igual)
+    if (data.password_hash === passwordIngresada) {
+        alert("¡Bienvenido, " + data.nombre + "!");
+        
+        // GUARDAMOS EN LA NUBE Y EN EL DISPOSITIVO PARA QUE FUNCIONE EN OTROS LADOS
+        localStorage.setItem('usuario_id_actual', data.id);
+        localStorage.setItem('usuario_nombre', data.nombre);
+        
+        window.location.href = "index.html";
+    } else {
+        alert("Contraseña incorrecta.");
+    }
+}
+
+// Asegúrate de que el ID del formulario en tu HTML sea 'login-form'
+const formularioLogin = document.getElementById('login-form'); 
+
+if (formularioLogin) {
+    formularioLogin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value;
+        const pass = document.getElementById('passInput').value;
+        await iniciarSesion(email, pass);
+    });
 }
 </script>
 </body>
