@@ -426,14 +426,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }])
                 .select();
 
-            if (error) {
-                console.error("❌ Error de Supabase:", error);
-                alert("⚠️ No se guardó el registro:\n" + error.message);
-            } else {
-                console.log("✅ ¡Registro guardado exitosamente!", data);
-                alert("🎉 ¡Pago procesado y registrado en la base de datos con éxito!");
-            }
-
             // Te redirige al aula de videos inmediatamente después del aviso
             window.location.href = "aula.html"; 
         });
