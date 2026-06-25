@@ -369,37 +369,44 @@
 
 
 <script type="module">
-    // Importamos desde el NUEVO archivo, usando el NUEVO nombre
     import { clientePago } from './supabasePago.js';
 
     window.procesarPagoSimulado = async function(event) {
-        event.preventDefault(); // Evita que la página se recargue
-        console.log("Conectando a la base de datos...");
-
-        // Mostrar pantalla de carga
+        event.preventDefault(); 
+        
+        // 1. Mostrar pantalla de carga
         document.getElementById('form-pago-completo').style.display = 'none';
         document.getElementById('pantalla-procesando').style.display = 'block';
 
         const miUuid = "f1c4d8dd-f8e8-4a1c-931d-88cd4de7a2b7";
 
-        // Insertamos en la tabla productos_comprados usando clientePago
+        // 2. Insertamos y pedimos que nos devuelva lo que guardó (.select())
         const { data, error } = await clientePago
             .from('productos_comprados')
             .insert([{ 
                 usuario_id: miUuid, 
                 nombre_producto: "Producto de Prueba", 
                 precio: 10.00 
-            }]);
+            }])
+            .select(); // <--- ESTO ES LO QUE TE FALTABA PARA OBTENER EL ID
 
-        // Ocultamos pantalla de carga
         document.getElementById('pantalla-procesando').style.display = 'none';
 
         if (error) {
-            console.error("Error en Supabase:", error.message);
             alert("Error al guardar: " + error.message);
             document.getElementById('form-pago-completo').style.display = 'block';
         } else {
-            console.log("¡Éxito! Datos guardados en productos_comprados.");
+            // 3. ¡AQUÍ RELLENAMOS TU RECIBO!
+            const compra = data[0]; // El objeto con los datos guardados
+
+            // Rellenar los campos usando los IDs de tu HTML
+            document.getElementById('recibo-id-orden').innerText = compra.id.substring(0, 8).toUpperCase();
+            document.getElementById('recibo-fecha').innerText = new Date().toLocaleDateString();
+            document.getElementById('recibo-cliente').innerText = "Usuario Registrado";
+            document.getElementById('recibo-tarjeta-terminacion').innerText = "4242"; // Simulado
+            document.getElementById('recibo-total').innerText = "$" + compra.precio.toFixed(2);
+
+            // 4. Mostrar el recibo
             document.getElementById('recibo-exitoso').style.display = 'block';
         }
     };
