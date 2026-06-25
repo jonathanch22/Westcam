@@ -641,7 +641,23 @@ document.addEventListener("DOMContentLoaded", () => {
     verificarEstadoSesion();
     actualizarContadorIconoVisual(); // Mantiene activa tu función del carrito anterior
 });
+// En lugar de comparar con lo que está en el navegador, 
+// haz la consulta directamente a Supabase SIEMPRE:
+const { data, error } = await supabase
+    .from('usuarios')
+    .select('id, nombre')
+    .eq('email', email)
+    .eq('password_hash', passwordIngresada) // ¡Verifica contra la base de datos!
+    .single();
 
+if (data) {
+    // Si la base de datos dice que es correcto, entonces sí, 
+    // puedes usar localStorage para "recordar" que está logueado en este dispositivo
+    localStorage.setItem('usuario_id_actual', data.id);
+    window.location.href = "index.html";
+} else {
+    alert("Usuario o contraseña incorrectos en la base de datos.");
+}
 </script>
 </body>
 </html>
