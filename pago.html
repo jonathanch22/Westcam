@@ -395,23 +395,28 @@
         if (error) {
             alert("Error al guardar: " + error.message);
             document.getElementById('form-pago-completo').style.display = 'block';
+       // ... dentro del else (si la inserción fue exitosa)
         } else {
-            // 3. ¡AQUÍ RELLENAMOS TU RECIBO!
-            const compra = data[0]; // El objeto con los datos guardados
+            console.log("¡Éxito! Datos guardados:", data);
+            
+            const compra = data[0]; // Aquí están los datos reales que Supabase registró
 
-            // Rellenar los campos usando los IDs de tu HTML
+            // 1. Rellenar los campos dinámicamente
+            // Asegúrate de que estos IDs existan en tu HTML
             document.getElementById('recibo-id-orden').innerText = compra.id.substring(0, 8).toUpperCase();
             document.getElementById('recibo-fecha').innerText = new Date().toLocaleDateString();
-            document.getElementById('recibo-cliente').innerText = "Usuario Registrado";
-            document.getElementById('recibo-tarjeta-terminacion').innerText = "4242"; // Simulado
-            document.getElementById('recibo-total').innerText = "$" + compra.precio.toFixed(2);
+            document.getElementById('recibo-cliente').innerText = "Cliente"; // O el nombre que tengas guardado
+            document.getElementById('recibo-total').innerText = "$" + parseFloat(compra.precio).toFixed(2);
 
-            // 4. Mostrar el recibo
-            document.getElementById('recibo-exitoso').style.display = 'block';
+            // 2. HACER VISIBLE EL RECIBO
+            // Asegúrate de que el div que contiene el recibo tenga el id="recibo-exitoso"
+            const contenedorRecibo = document.getElementById('recibo-exitoso');
+            if (contenedorRecibo) {
+                contenedorRecibo.style.display = 'block';
+            } else {
+                console.error("No se encontró el elemento con id='recibo-exitoso'");
+            }
         }
-    };
-</script>
 </body>
 </html>
-</body>
-</html>     
+   
