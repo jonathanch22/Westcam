@@ -398,7 +398,6 @@ function realizarBusquedaDesdeCapa() {
     const SUPABASE_URL = 'https://kfgfriaanvvujgxxksbj.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS';
     const TABLA_PEDIDOS = 'productos_comprados';
-    const USUARIO_ID_POR_DEFECTO = 1;   // se usa porque tu tabla pide usuario_id
     const MODO_PRUEBA = true;           // true = NO cobra la tarjeta (solo registra el pedido)
 
     // OJO: se llama "sb" (no "supabase") para no chocar con la librería global
@@ -563,12 +562,36 @@ function realizarBusquedaDesdeCapa() {
             // ⚠️ Aquí iría el cobro real con tu pasarela (PagueloFacil, Yappy, etc.)
             // si MODO_PRUEBA = false. Los datos de la tarjeta NUNCA se guardan ni se envían a Supabase.
 
-            // Una fila por producto, con los datos del cliente para poder entregar el pedido
-            const filas = carrito.map(item => ({
-                usuario_id: USUARIO_ID_POR_DEFECTO,
-                nombre_producto: `${item.titulo} (x${item.cantidad}) | Orden ${ordenId} | ${nombre} ${apellido} | ${email} | ${telefono || 'sin tel.'} | ${direccion}`,
-                precio: Number((Number(item.precio) * Number(item.cantidad)).toFixed(2))
-            }));
+            // Si el cliente inició sesión, usamos su ID (uuid). Si compra sin cuenta, va null.
+            let usuarioId = null;
+            try {
+                const { data: sesion } = await sb.auth.getUser();
+                if (sesion && sesion.user) usuarioId = sesion.user.id;
+            } catch (e) { /* sin sesión: compra como invitado */ }
+
+            // Una fila por producto. "precio" = lo que realmente cuesta esa línea CON ITBMS (7%)
+            const redondear = n => Number(n.toFixed(2));
+            const filas = carrito.map(item => {
+                const cantidad = Number(item.cantidad);
+                const unitario = Number(item.precio);
+                const base = unitario * cantidad;
+                const totalLinea = redondear(base * 1.07);
+                return {
+                    usuario_id: usuarioId,
+                    numero_orden: ordenId,
+                    nombre_producto: item.titulo,
+                    cantidad: cantidad,
+                    precio_unitario: redondear(unitario),
+                    itbms: redondear(totalLinea - base),
+                    precio: totalLinea,
+                    cliente_nombre: nombre + ' ' + apellido,
+                    cliente_email: email,
+                    cliente_telefono: telefono || null,
+                    direccion_entrega: direccion,
+                    metodo_pago: MODO_PRUEBA ? 'prueba (sin cobro)' : 'tarjeta',
+                    estado: MODO_PRUEBA ? 'prueba' : 'pagado'
+                };
+            });
 
             const { error } = await sb.from(TABLA_PEDIDOS).insert(filas);
             if (error) throw error;
@@ -599,7 +622,11 @@ function realizarBusquedaDesdeCapa() {
             document.getElementById('pantalla-procesando').style.display = 'none';
             document.getElementById('form-pago-completo').style.display = '';
             btn.disabled = false;
-            mostrarError('No se pudo registrar tu pedido: ' + (err.message || 'error desconocido') + '. Tu carrito sigue intacto, inténtalo de nuevo.');
+            let detalle = err.message || 'error desconocido';
+            if (/null value/i.test(detalle) && /usuario_id/i.test(detalle)) {
+                detalle = 'para comprar debes iniciar sesión en Mi Cuenta (o permitir pedidos sin cuenta en la base de datos)';
+            }
+            mostrarError('No se pudo registrar tu pedido: ' + detalle + '. Tu carrito sigue intacto, inténtalo de nuevo.');
         }
     }
 
