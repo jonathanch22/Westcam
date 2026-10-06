@@ -162,8 +162,11 @@
             <span style="font-size: 1.5rem; font-weight: bold;">$25.00</span>
         </div>
         
+        <p style="font-size: 0.8rem; margin-bottom: 5px;">Nombre completo</p>
+        <input type="text" id="curso-nombre" placeholder="Tu nombre y apellido" class="input-pago" autocomplete="name">
+
         <p style="font-size: 0.8rem; margin-bottom: 5px;">Contacto</p>
-        <input type="email" placeholder="Email address" class="input-pago">
+        <input type="email" id="curso-email" placeholder="Email address" class="input-pago" autocomplete="email">
 
         <h3 style="text-align: center; margin: 20px 0;">Método Pago</h3>
         
@@ -171,20 +174,20 @@
             <p style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;"><i class="fa-solid fa-credit-card"></i> Pago</p>
             <label style="font-size: 0.8rem;">Número de tarjeta</label>
             <div style="position: relative;">
-                <input type="text" placeholder="1222 333 444" class="input-pago">
+                <input type="text" id="curso-tarjeta" placeholder="1222 3333 4444 5555" maxlength="19" inputmode="numeric" autocomplete="cc-number" class="input-pago">
                 <img src="oo.png" style="position: absolute; right: 10px; top: 18px; height: 20px;">
             </div>
             
             <label style="font-size: 0.8rem;">Fecha de expiración</label>
-            <input type="text" placeholder="MM / YY" class="input-pago">
+            <input type="text" id="curso-exp" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="cc-exp" class="input-pago">
             
             <label style="font-size: 0.8rem;">País</label>
             <select class="input-pago">
                 <option>Panamá</option>
             </select>
 
-          <label style="font-size: 0.8rem;">Código de seguridad</label>
-        <input type="password" placeholder="CVC" class="input-pago" autocomplete="cc-csc" required>
+            <label style="font-size: 0.8rem;">Código de seguridad</label>
+            <input type="password" id="curso-cvc" placeholder="CVC" maxlength="4" inputmode="numeric" autocomplete="cc-csc" class="input-pago">
         </div>
 
         <div style="display: flex; justify-content: space-between; margin-top: 20px; font-weight: bold;">
@@ -193,16 +196,21 @@
         </div>
         <p style="font-size: 0.9rem; color: #000000;">Curso Instalación</p>
 
-<!-- Cambiamos type="submit" por type="button" y le agregamos id="btn-pagar" -->
-<button type="button" id="btn-pagar" class="btn-azul-west" style="width: 100%; padding: 16px; background-color: #27a3cc; color: #ffffff; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: block; text-transform: uppercase;">
+        <div id="curso-aviso-prueba" style="display:none; background:#fff8e1; border:1px solid #ffe08a; color:#7a5b00; padding:10px 12px; border-radius:8px; font-size:0.75rem; margin-top:15px;">
+            <strong>Modo de prueba:</strong> se registra el pago, pero no se cobra nada a la tarjeta.
+        </div>
+        <div id="curso-msg" style="display:none; padding:10px 12px; border-radius:8px; font-size:0.85rem; margin-top:15px;"></div>
+
+        <button type="button" id="btn-pagar-curso" onclick="pagarCurso()" class="btn-azul-west" style="width: 100%; padding: 16px; background-color: #27a3cc; color: #ffffff; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: block; text-transform: uppercase;">
     Pagar y Acceder al Curso
-</button>
+    </button>
+
         <p style="font-size: 0.6rem; color: #000000; text-align: center; margin-top: 15px; font-weight: 500;">
             Las transacciones son seguras y están cifradas.
         </p>
     </section> 
 
-</div> ```
+</div>
 
 
     <footer class="footer-principal">
@@ -256,7 +264,15 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-
+    <!-- SCRIPT PARA EL MENÚ -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
 
     <script>
     // Función inteligente: si está cerrado lo abre, si está abierto lo cierra
@@ -298,7 +314,6 @@ function suscribirUsuario(event) {
     formulario.style.display = 'none';
     mensajeExito.style.display = 'block';
 }
-</script>
 </script>
 
 
@@ -390,46 +405,172 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+</script> 
 
-    </script>
+    <!-- Librería de Supabase (se carga ANTES del script de pago) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    
-<script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    <script>
+    // =====================================================================
+    // CONFIGURACIÓN DEL PAGO DEL CURSO
+    // =====================================================================
+    const SUPABASE_URL = 'https://kfgfriaanvvujgxxksbj.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS';
+    const NOMBRE_CURSO = 'Instalación de cámaras';
+    const PRECIO_CURSO = 25.00;      // debe coincidir con el precio mostrado en la página
+    const MODO_PRUEBA  = true;       // true = NO cobra la tarjeta (solo registra el pago)
 
-    // Conexión directa propia para saltarnos el error de tu archivo 'supabaseClient.js'
-    const URL_SUPA = 'https://kfgfriaanvvujgxxksbj.supabase.co'; 
-    const KEY_SUPA = 'sb_publishable_6ZJ_VzxXeU3BgLHIJYYbow_a7fCiGeS'; 
-    const supaDirecto = createClient(URL_SUPA, KEY_SUPA);
+    // Se llama "sbCurso" para no chocar con la librería global "supabase"
+    const sbCurso = (window.supabase && window.supabase.createClient)
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+        : null;
 
-    const btnPagar = document.getElementById('btn-pagar');
-
-    if (btnPagar) {
-        btnPagar.addEventListener('click', async (e) => {
-            e.preventDefault();
-            
-            console.log("🚀 Procesando pago directo...");
-
-            // Intentamos recuperar el ID si inició sesión, si no, lo mandamos como null
-            let usuarioId = localStorage.getItem('usuario_id_actual');
-            if (!usuarioId || usuarioId === "null" || usuarioId.trim() === "") {
-                usuarioId = null; 
-            }
-
-            // Enviamos los datos limpios a tu tabla
-            const { data, error } = await supaDirecto
-                .from('cursos_pagos') 
-                .insert([{ 
-                    usuario_id: usuarioId, // Guardará el UUID correspondiente o quedará NULL si es invitado
-                    nombre_curso: 'Instalación de cámaras', 
-                    pagado: true 
-                }])
-                .select();
-
-            // Te redirige al aula de videos inmediatamente después del aviso
-            window.location.href = "aula.html"; 
-        });
+    // ---------- Utilidades ----------
+    function tarjetaValida(numero) {
+        const d = numero.replace(/\D/g, '');
+        if (d.length < 13 || d.length > 19) return false;
+        let suma = 0, doble = false;
+        for (let i = d.length - 1; i >= 0; i--) {
+            let n = parseInt(d[i], 10);
+            if (doble) { n *= 2; if (n > 9) n -= 9; }
+            suma += n;
+            doble = !doble;
+        }
+        return suma % 10 === 0;
     }
-</script>
+
+    function expiracionValida(texto) {
+        const m = texto.match(/^(\d{2})\/(\d{2})$/);
+        if (!m) return false;
+        const mes = parseInt(m[1], 10), anio = 2000 + parseInt(m[2], 10);
+        if (mes < 1 || mes > 12) return false;
+        return new Date(anio, mes, 0, 23, 59, 59) >= new Date();
+    }
+
+    function mostrarMensaje(texto, tipo) {
+        const box = document.getElementById('curso-msg');
+        const ok = tipo === 'ok';
+        box.style.background = ok ? '#e8f5e9' : '#fdecea';
+        box.style.border = ok ? '1px solid #b7dfb9' : '1px solid #f5c2c0';
+        box.style.color = ok ? '#1e6b25' : '#a12622';
+        box.innerHTML = texto;
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function activarFormatoTarjeta() {
+        const num = document.getElementById('curso-tarjeta');
+        const exp = document.getElementById('curso-exp');
+        const cvc = document.getElementById('curso-cvc');
+        num.addEventListener('input', () => {
+            const d = num.value.replace(/\D/g, '').slice(0, 16);
+            num.value = d.replace(/(.{4})/g, '$1 ').trim();
+        });
+        exp.addEventListener('input', () => {
+            let d = exp.value.replace(/\D/g, '').slice(0, 4);
+            if (d.length >= 3) d = d.slice(0, 2) + '/' + d.slice(2);
+            exp.value = d;
+        });
+        cvc.addEventListener('input', () => { cvc.value = cvc.value.replace(/\D/g, '').slice(0, 4); });
+    }
+
+    // Rellena nombre y correo automáticamente si el usuario ya inició sesión
+    async function precargarDatosUsuario() {
+        if (!sbCurso) return;
+        try {
+            const { data } = await sbCurso.auth.getUser();
+            const user = data && data.user;
+            if (!user) return;
+
+            document.getElementById('curso-email').value = user.email || '';
+
+            let nombre = '';
+            try {
+                const r = await sbCurso.from('usuarios').select('nombre').eq('email', user.email).maybeSingle();
+                if (r.data && r.data.nombre) nombre = r.data.nombre;
+            } catch (e) { /* si la tabla no deja leer, usamos otras fuentes */ }
+
+            if (!nombre) {
+                try {
+                    const ses = JSON.parse(localStorage.getItem('sesionActiva') || 'null');
+                    if (ses && ses.username) nombre = ses.username;
+                } catch (e) {}
+            }
+            if (!nombre && user.user_metadata) nombre = user.user_metadata.full_name || user.user_metadata.name || '';
+            if (!nombre && user.email) nombre = user.email.split('@')[0];
+
+            document.getElementById('curso-nombre').value = nombre;
+        } catch (e) { console.warn('No se pudo precargar el usuario:', e); }
+    }
+
+    // ---------- Pago ----------
+    async function pagarCurso() {
+        const btn = document.getElementById('btn-pagar-curso');
+        document.getElementById('curso-msg').style.display = 'none';
+
+        if (!sbCurso) { mostrarMensaje('No se pudo conectar con el servidor. Revisa tu internet y recarga la página.', 'error'); return; }
+
+        // 1. Debe haber sesión iniciada
+        const { data: sesion } = await sbCurso.auth.getUser();
+        const user = sesion && sesion.user;
+        if (!user) {
+            mostrarMensaje('⚠️ Debes iniciar sesión antes de comprar el curso. Te llevamos a Mi Cuenta...', 'error');
+            setTimeout(() => { window.location.href = 'mi-cuenta.html'; }, 2000);
+            return;
+        }
+
+        // 2. Validar datos
+        const nombre = document.getElementById('curso-nombre').value.trim();
+        const email = document.getElementById('curso-email').value.trim();
+        const tarjeta = document.getElementById('curso-tarjeta').value;
+        const exp = document.getElementById('curso-exp').value;
+        const cvc = document.getElementById('curso-cvc').value;
+
+        if (nombre.length < 2) { mostrarMensaje('Escribe tu nombre completo.', 'error'); return; }
+        if (!/^\S+@\S+\.\S+$/.test(email)) { mostrarMensaje('Escribe un correo electrónico válido.', 'error'); return; }
+        if (!tarjetaValida(tarjeta)) { mostrarMensaje('El número de tarjeta no es válido.', 'error'); return; }
+        if (!expiracionValida(exp)) { mostrarMensaje('La fecha de expiración no es válida o está vencida (formato MM/AA).', 'error'); return; }
+        if (!/^\d{3,4}$/.test(cvc)) { mostrarMensaje('El código de seguridad (CVC) debe tener 3 o 4 dígitos.', 'error'); return; }
+
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.innerText = 'Procesando pago...';
+
+        try {
+            // ⚠️ Aquí iría el cobro real con tu pasarela si MODO_PRUEBA = false.
+            // Los datos de la tarjeta NUNCA se guardan; solo los últimos 4 dígitos.
+            const { error } = await sbCurso.from('cursos_pagos').insert([{
+                usuario_id: user.id,
+                nombre_curso: NOMBRE_CURSO,
+                nombre_usuario: nombre,
+                email: email,
+                precio: PRECIO_CURSO,
+                metodo_pago: 'Tarjeta de crédito',
+                tarjeta_ultimos4: tarjeta.replace(/\D/g, '').slice(-4),
+                pagado: true,
+                es_prueba: MODO_PRUEBA
+            }]);
+            if (error) throw error;
+
+            mostrarMensaje('🎉 <strong>¡Pago registrado!</strong> Bienvenido al curso. Te llevamos al aula...', 'ok');
+            btn.innerText = 'Pago completado';
+            setTimeout(() => { window.location.href = 'aula.html'; }, 2000);
+
+        } catch (err) {
+            console.error('Error al registrar el pago del curso:', err);
+            mostrarMensaje('❌ No se pudo registrar el pago: ' + (err.message || 'error desconocido') + '. Inténtalo de nuevo.', 'error');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerText = 'Pagar y Acceder al Curso';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        activarFormatoTarjeta();
+        precargarDatosUsuario();
+        if (MODO_PRUEBA) document.getElementById('curso-aviso-prueba').style.display = 'block';
+    });
+    </script>
 </body>
 </html>
+
